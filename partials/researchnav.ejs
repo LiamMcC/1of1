@@ -1,0 +1,10 @@
+<div id="header" style="padding-top:0px;">
+    <nav id="nav">
+        <ul>
+            <li class="<%= researchRoute === '/research' ? 'current' : '' %>"><a href="/research#researchbanner">Research Home</a></li>
+            <% result[1].forEach(function(iCat) { %>
+                <li class="<%= researchRoute === '/research/' + iCat.title ? 'current' : '' %>"><a href="/research/<%= iCat.title %>#researchbanner"><%= iCat.title %></a></li>
+            <% }); %>
+        </ul>
+    </nav>
+</div>

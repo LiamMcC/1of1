@@ -1,0 +1,49 @@
+<%- include('../partials/header') -%>
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div class="row gtr-200">
+       
+            <div class="col-12  col-12-narrower imp-narrower">
+                <div id="content">
+
+                    <!-- Content -->
+
+                        <article>
+                            <header>
+                                <h3>All <%= user.userName %>'s Messages</h3>
+                                <p>Here you will find a list of all messages that were directly sent to you. Messages you have replied to will be in your <a href="/outbox">outbox</a>. .</p>
+                            </header>     
+                        </article>
+
+                        <% if (result.length == 0) { %>
+                            <p>Right Now You Have No Messages You Have No Messages</p>
+                            <% } else { %>
+                            
+                                <% result.forEach(function(myMessages) { %>
+                                
+                                    <article>
+                                        <header>
+                                            <h2><%= myMessages.message_subject %></h2>
+                                            <p>Last message On <%= myMessages.timestamp %></p>
+                                            <p><a href="/readmessage/<%= myMessages.message_id %>" style="color:rgb(241, 103, 11)"><b>Read</b></a></p>
+                                        </header>     
+                                    </article>
+
+
+                                    <% }) %>
+
+
+                            <% } %>
+
+                           
+                       
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') -%>

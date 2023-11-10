@@ -1,0 +1,115 @@
+<%- include('../partials/header') -%>
+
+				
+
+						<!-- Main -->
+                        <section class="wrapper style1">
+                            <div class="container">
+                                <div class="row gtr-200">
+                                    <div class="col-8 col-12-narrower">
+                                        <div id="content">
+        
+                                            <!-- Content -->
+        
+                                                <article>
+                                                    <header>
+                                                        <h2>Update: <%= result[0].title %></h2>
+                                                        
+                                                        <% if (message) { %>
+                                                            <div class="col-md-12">
+                                                            <h3 style="color: red;"><%= message %></h3>
+                                                          </div>
+                                                            <% } %>
+                                                   
+                                                    </header>
+        
+                                                    <form action="/admineditcontent/<%= result[0].webContent_id %>" method="post">
+                                                        <div class="row gtr-50">
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Title /admineditcontent/(result[0].webContent_id</P>
+                                                                <input type="text" name="title" id="message" rows="5" value="<% if (result[0].title) { %><%= result[0].title %><% } else { %>Please enter a short title for the item here!<% } %>" />
+                                                            </div>
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Location (This will be the link address eg /location)</P>
+                                                                <input type="text" name="location" id="message" rows="5" value="<% if (result[0].location) { %><%= result[0].location %><% } else { %>Please enter a location here!<% } %>" />
+                                                            </div>
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Heading (Will Appear On Page)</P>
+                                                                <input type="text" name="heading1" id="message" rows="5" value="<% if (result[0].heading1) { %><%= result[0].heading1 %><% } else { %>Please enter a main sub-heading here!<% } %>" />
+                                                            </div>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Paragraph</P>
+                                                                <textarea name="paragraph1" id="message" rows="5"><% if (result[0].paragraph1) { %><%= result[0].paragraph1 %><% } else { %>Please enter a detailed description here!<% } %></textarea>
+                                                            </div>
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Sub Heading (Will Appear On Page)</P>
+                                                                <input type="text" name="heading2" id="message" rows="5" value="<% if (result[0].heading2) { %><%= result[0].heading2 %><% } else { %>Please enter a second sub-heading here!<% } %>" />
+                                                            </div>
+                                                            
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Sub Paragraph</P>
+                                                                <textarea name="paragraph2" id="message" rows="5">Main Paragraph</textarea>
+
+                                                                
+                                                            </div>
+
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Short Blurb</P>
+                                                                <input type="text" name="main_feature1" id="message" rows="5" value="<% if (result[0].main_feature1) { %><%= result[0].main_feature1 %><% } else { %>Please enter a short important aspect here!<% } %>" />
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Icon (icon solid major fa-change-this-bit)</P>
+                                                                <input type="text" name="icon" id="message" rows="5" value="<% if (result[0].icon) { %><%= result[0].icon %><% } else { %>Please enter icon name you want here!<% } %>" />
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Show On Home Page</P>
+                                                                <select name="home_show" class="form-control">
+                                                                  <option value=0 <% if (result[0].home_show === 0) { %>selected<% } %>>Not Showng On Home Page</option>
+                                                                  <option value=1 <% if (result[0].home_show === 1) { %>selected<% } %>>Showng On Home Page</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <ul class="actions">
+                                                                  <li><input type="submit" class="button" value="Update Content" /></li>
+                                                                </ul>
+                                                              </div>
+                                                              
+                                                        </div>
+                                                    </form>
+                                                </article>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-12-narrower">
+                                        <div id="sidebar">
+        
+                                            <!-- Sidebar -->
+        
+<section>
+    <h3>Be patient here</h3>
+    <p>Give as much details as you can in these sections. Be sure that you have read and understand all the reasons to list or not list and item here</p>
+</section>
+        
+                                                <section>
+                                                    <%- include('../partials/profilelinks') -%>
+                                                </section>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                <%- include('../partials/footer') -%>

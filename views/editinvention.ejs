@@ -1,0 +1,146 @@
+<%- include('../partials/header') -%>
+
+				
+
+						<!-- Main -->
+                        <section class="wrapper style1">
+                            <div class="container">
+                                <div class="row gtr-200">
+                                    <div class="col-8 col-12-narrower">
+                                        <div id="content">
+        
+                                            <!-- Content -->
+        
+                                                <article>
+                                                    <header>
+                                                        <h2>Edit <%= result[0].createdBy %></h2>
+                                                        <p><span style="color: red">Warning:</span> Be Sure you fully understand that this may lead to a public disclosure of an item. If you are intensing to apply for a patent application do not list the item here before the application is placed with a patent office. </p>
+                                                   
+                                                        <% if (message) { %>
+                                                            <div class="col-md-12">
+                                                            <h3 style="color: red;"><%= message %></h3>
+                                                          </div>
+                                                            <% } %>
+                                                   
+                                                    </header>
+        
+                                                    <form action="/editinvention/<%= result[0].item_id %>" enctype="multipart/form-data" method="post">
+                                                        <div class="row gtr-50">
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Title</P>
+                                                                <input type="text" name="title" id="name" value="<%= result[0].title %>" />
+                                                                
+                                                            </div>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Heading</P>
+                                                                <textarea name="heading1" id="message" rows="5"><% if (result[0].heading1) { %><%= result[0].heading1 %><% } else { %>Please enter a short title for the item here!<% } %></textarea>
+                                                            </div>
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <img src="/resized/<%= result[0].image %>" alt="Where" style="width:230px;"/>
+                                                                <P style="margin-bottom: 0px;">Current Image</P>
+                                                                
+                                                                <label style="display: inline-block; background-color: #0077FF; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                                                                    <span id="file-name-label">Choose A New Image</span>
+                                                                    <input type="file" style="display: none;" name="image" accept="image/*" onchange="displayFileName(this)">
+                                                                </label>
+                                                            </div>
+                                                            
+                                                            <script>
+                                                            function displayFileName(input) {
+                                                                const fileInput = document.querySelector('input[type="file"]');
+                                                                const fileNameLabel = document.getElementById('file-name-label');
+                                                                
+                                                                if (fileInput.files.length > 0) {
+                                                                    fileNameLabel.textContent = fileInput.files[0].name;
+                                                                } else {
+                                                                    fileNameLabel.textContent = 'Choose an Image';
+                                                                }
+                                                            }
+                                                            </script>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Paragraph</P>
+                                                                <textarea name="paragraph1" id="message" rows="5"><% if (result[0].paragraph1) { %><%= result[0].paragraph1 %><% } else { %>Please enter somedescriptive information about the item here!<% } %></textarea>
+
+                                                                
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Sub Heading</P>
+                                                                <textarea name="heading2" id="message" rows="5"><% if (result[0] && result[0].heading2) { %><%= result[0].heading2 %><% } else { %>Please enter a second short heading here!<% } %></textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Sub Paragraph</P>
+                                                                <textarea name="paragraph2" id="message" rows="5"><% if (result[0] && result[0].paragraph2) { %><%= result[0].paragraph2 %><% } else { %>Please enter additional information here!<% } %></textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 1 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature1" value="<% if (result[0] && result[0].main_feature1) { %><%= result[0].main_feature1 %><% } else { %>Please enter your the first main feature here!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 2 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature2" value="<% if (result[0] && result[0].main_feature2) { %><%= result[0].main_feature2 %><% } else { %>Please enter your the first second feature here!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 3 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature3" value="<% if (result[0] && result[0].main_feature3) { %><%= result[0].main_feature3 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 4 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature4" value="<% if (result[0] && result[0].main_feature4) { %><%= result[0].main_feature4 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 5 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature5" value="<% if (result[0] && result[0].main_feature5) { %><%= result[0].main_feature5 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Value Required (Numbers Only)</P>
+                                                                <input type="number" name="valuedat" value="<% if (result[0] && result[0].valuedAt) { %><%= result[0].valuedAt %><% } else { %>What price are you looking for (Numbers Only)!<% } %>"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <ul class="actions">
+                                                                  <li><input type="submit" class="button" value="Update Invention" /></li>
+                                                                </ul>
+                                                              </div>
+                                                              
+                                                        </div>
+                                                    </form>
+                                                </article>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-12-narrower">
+                                        <div id="sidebar">
+        
+                                            <!-- Sidebar -->
+        
+<section>
+    <h3>Be patient here</h3>
+    <p>Give as much details as you can in these sections. Be sure that you hav eread and understand all the reasons to list or not list and item here</p>
+</section>
+        
+                                                <section>
+                                                    <%- include('../partials/profilelinks') -%>
+                                                </section>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                <%- include('../partials/footer') -%>

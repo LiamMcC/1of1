@@ -1,0 +1,83 @@
+<%- include('../partials/header') -%>
+
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div id="content">
+
+            <!-- Content -->
+
+                <article>
+                    <header>
+                        <h2>Admin Area, Welcome <%= user.userName %></h2>
+                        <p>Remember To Log Out</p>
+                    </header>
+
+                    
+
+                    <h3>Here are your options</h3>
+
+                    <table>
+                        <tr>
+                          <th>Section</th>
+                          <th>Description</th>
+                          <th>Go</th>
+                         
+                         
+                        </tr>
+
+                        <tr>
+                          <td>Inventions</td>
+                          <td>This section contains details about all inventions listed</td>
+                          <td><a href="/admininventions" >Go!</a></td>
+                         
+                        </tr>
+
+                        <tr>
+                            <td>Site Content</td>
+                            <td>This section contains details about website content.</td>
+                            <td><a href="/adminsitecontent" >Go!</a></td>
+                           
+                          </tr>
+
+                          <tr>
+                            <td>Blog</td>
+                            <td>This section contains details about blogs.</td>
+                            <td><a href="/adminblog" >Go!</a></td>
+                           
+                          </tr>
+
+                          <tr>
+                            <td>Research</td>
+                            <td>This section contains details about research.</td>
+                            <td><a href="/admininresearch" >Go!</a></td>
+                           
+                          </tr>
+
+                          <tr>
+                            <td>Registered Users</td>
+                            <td>This section contains details about wensite users.</td>
+                            <td><a href="/adminusers" >Go!</a></td>
+                           
+                          </tr>
+
+                          <tr>
+                            <td>Subscriptions</td>
+                            <td>This section contains details about user subscriptions.</td>
+                            <td><a href="/admininsubscriptions" >Go!</a></td>
+                           
+                        </tr>
+                  
+                      </table>
+
+                  
+                </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+<%- include('../partials/footer') -%>

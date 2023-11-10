@@ -1,0 +1,109 @@
+<%- include('../partials/header') -%>
+
+
+
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+                    <div class="col-4 col-12-narrower">
+                        <div id="sidebar">
+
+                            <!-- Sidebar -->
+                                <section>
+                                    <h3>Main Features Include</h3>
+                                    <ol class="links">
+                                        <li><%= result[0].main_feature1 %></li>
+                                        <li><%= result[0].main_feature2 %></li>
+                                        <li><%= result[0].main_feature3 %></li>
+                                        <li><%= result[0].main_feature2 %></li>
+                                        <li><%= result[0].main_feature5 %></li>
+
+                                    </ol>
+                                  
+                                </section>
+
+                                <section>
+                                    <h3>Contact Inventor</h3>
+                                    
+                                    <footer>
+
+                                        <form action="/messageinventor/<%= result[0].creator_id %>" method="post">
+                                            <div class="row gtr-50">
+                                                <div class="col-12 col-12-mobilep">
+                                                    <input type="text" name="subject" id="name" placeholder="Subject" />
+                                                </div>
+
+                                                <div class="row gtr-50">
+                                                    <div class="col-12 col-12-mobilep">
+                                                        <textarea name="message" id="message" rows="5"></textarea>
+                                                    </div>
+
+                                                <input type="hidden" name="aboutinvention" value="<%= result[0].title %>">
+
+                                                <div class="col-12">
+                                                    <ul class="actions">
+                                                        <li><input type="submit" class="button alt" value="Message <%= result[0].createdBy %>" /></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </form>
+                                       
+                                    </footer>
+                                </section>
+
+                                <section>
+                                    <h3>Make Offer</h3>
+                                    <P>This item is available for <%= result[0].investType %>. The owner of this invention is looking for offers in the region of</P>
+                                       <p>&euro;<%= result[0].valuedAt %></p>
+                                       
+                                    
+                                    <footer>
+
+                                        <form action="/login" method="post">
+                                            <div class="row gtr-50">
+                                                <div class="col-12 col-12-mobilep">
+                                                    <input type="text" name="offer" id="name" placeholder="Make an offer" />
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <ul class="actions">
+                                                        <li><input type="submit" class="button alt" value="Submit Offer" /></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </form>
+                                       
+                                    </footer>
+                                </section>
+
+                        </div>
+                    </div>
+                    <div class="col-8  col-12-narrower imp-narrower">
+                        <div id="content">
+
+                            <!-- Content -->
+
+                                <article>
+                                    <header>
+                                        <h2><%= result[0].title %></h2>
+                                        <p>Created By: <a href="/publicprofile/<%= result[0].createdBy %>/<%= result[0].creator_id %>"><%= result[0].createdBy %></a></p>
+                                    </header>
+
+                                    <span class="image featured"><img src="/banner.jpg" alt="" /></span>
+
+                                    <p><%= result[0].paragraph1 %></p>
+
+                                    <h3><%= result[0].heading2 %></h3>
+                                    <p><%= result[0].paragraph2 %></p>
+                                </article>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>

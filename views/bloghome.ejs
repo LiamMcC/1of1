@@ -1,0 +1,62 @@
+<%- include('../partials/header') -%>
+
+				<%- include('../partials/blogbanner') -%>
+
+               
+
+
+			<!-- Gigantic Heading -->
+				<section class="wrapper style2" style="padding-top:0px;padding-bottom:0px;">
+					<div class="container">
+						<header class="major">
+							<h2>Up To Date Articles From 1 Of 1.ie</h2>
+							<p>If You Would Like To Contribute Please Do Get In Touch!</p>
+						</header>
+					</div>
+				</section>
+
+			<!-- Posts -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row">
+                            <% result.forEach(function(iContent) { %>
+                            
+                                <% var namex = iContent.Title 
+                    var realnamefixed = namex.replace(/ /g , "-");
+                    %>
+
+							<section class="col-6 col-12-narrower">
+								<div class="box post">
+									<a href="#" class="image left"><img src="/<%= iContent.Image %>" alt="" /></a>
+									<div class="inner">
+										<h3><%= iContent.Title %></h3>
+                                        <p><%= iContent.SmallBit %> </p>
+                                            
+                                            <p><a href="/blogarticle/<%= realnamefixed %>/<%= iContent.Id %>" >Find Out More...</a>
+                                        </p>
+										
+									</div>
+								</div>
+							</section>
+
+                            <% }); %>
+						
+						</div>
+
+					</div>
+				</section>
+
+			<!-- CTA -->
+				<section id="cta" class="wrapper style3">
+					<div class="container">
+						<header>
+							<h2>Do you have an idea or are you an investor?</h2>
+							<a href="/register" class="button">Register Now</a>
+						</header>
+					</div>
+				</section>
+
+
+                <%- include('../partials/footer') -%>
+
+	

@@ -1,0 +1,55 @@
+<%- include('../partials/researchheader') -%>
+
+
+<%- include('../partials/researchnav') -%>
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+                    <div class="col-4 col-12-narrower">
+                        <div id="sidebar">
+
+                            <!-- Sidebar -->
+                                <section>
+                                    <h3>Abstract</h3>
+                                    <p><%= result[0][0].smallBit %></p>
+                                  
+                                </section>
+
+                                <section>
+                                    <h3>Category</h3>
+                                    <p><a href="/research/<%= result[0][0].category %>"><%= result[0][0].category %></a></p>
+                                  
+                                </section>
+
+
+                        </div>
+                    </div>
+                    <div class="col-8  col-12-narrower imp-narrower">
+                        <div id="content">
+
+                            <!-- Content -->
+
+                                <article>
+                                    <header>
+                                        <h2><%= result[0].title %></h2>
+                                        <p>Created By: <a href="/publicprofile/<%= result[0].createdBy %>/<%= result[0].creator_id %>"><%= result[0].createdBy %></a></p>
+                                    </header>
+
+                                    <span class="image featured"><img src="/banner.jpg" alt="" /></span>
+
+                                    <p><%= result[0].paragraph1 %></p>
+
+                                    <h3><%= result[0].heading2 %></h3>
+                                    <p><%= result[0].paragraph2 %></p>
+                                </article>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>

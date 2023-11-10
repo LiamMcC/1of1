@@ -1,0 +1,53 @@
+<%- include('../partials/header') -%>
+
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div id="content">
+
+            <!-- Content -->
+
+                <article>
+                    <header>
+                        <h2>Admin Area, Welcome <%= user.userName %></h2>
+                        <p>Remember To Log Out</p>
+                    </header>
+
+                    
+
+                    <h3>Here are your options</h3>
+
+                    <table>
+                        <tr>
+                          <th>Section</th>
+                          <th>Location</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                         
+                         
+                        </tr>
+                        <% result.forEach(function(wContent) { %>
+                        <tr>
+                          <td><%= wContent.title %></td>
+                          <td><%= wContent.location %></td>
+                          
+                          <td><a href="/admineditcontent/<%= wContent.webContent_id %>" >Edit!</a></td>
+                          <td><a href="/admineditcontent" >Delete!</a></td>
+                         
+                        </tr>
+                        <% }); %>
+                     
+                  
+                      </table>
+
+                  
+                </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+<%- include('../partials/footer') -%>

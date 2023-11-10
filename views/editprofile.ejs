@@ -1,0 +1,106 @@
+<%- include('../partials/header') -%>
+
+				
+
+						<!-- Main -->
+                        <section class="wrapper style1">
+                            <div class="container">
+                                <div class="row gtr-200">
+                                    <div class="col-8 col-12-narrower">
+                                        <div id="content">
+        
+                                            <!-- Content -->
+        
+                                                <article>
+                                                    <header>
+                                                        <h2>Edit <%= user.userName %>'s Profile</h2>
+                                                        <p>Update any details below</p>
+                                                    </header>
+        
+                                                    <form action="/editprofile" method="post">
+                                                        <div class="row gtr-50">
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Email Address</P>
+                                                                <input type="text" name="newemail" id="name" value="<%= user.uemail %>" />
+                                                                
+                                                            </div>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Summary About You</P>
+                                                                <textarea name="summary" id="message" rows="5"><% if (user.summary) { %><%= user.summary %><% } else { %>Please enter a short descriptave piece of information so that people at a glance can see what you are all about!<% } %></textarea>
+                                                            </div>
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Detailed Information About You</P>
+                                                                <textarea name="allAbout" id="message" rows="5"><% if (user.allAbout) { %><%= user.allAbout %><% } else { %>Please enter some information about you here!<% } %></textarea>
+
+                                                                
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Write A Bit About Your Interests</P>
+                                                                <textarea name="interests" id="message" rows="5"><% if (result[0] && result[0].interests) { %><%= result[0].interests %><% } else { %>Please enter your interests here!<% } %></textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">If you have more to add about you please do so here!</P>
+                                                                <textarea name="aboutme" id="message" rows="5"><% if (result[0] && result[0].aboutMe) { %><%= result[0].aboutMe %><% } else { %>Please enter your interests here!<% } %></textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Tell us here what your expectation is from this website. This will appear in your public profile!</P>
+                                                                <textarea name="expecting" id="message" rows="5"><% if (result[0] && result[0].expecting) { %><%= result[0].expecting %><% } else { %>Please enter your interests here!<% } %></textarea>
+                                                                
+                                                            </div>
+
+                                                            
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Change Role</P>
+                                                                <label>Role</label>
+                                                                <select name="role" class="form-control">
+                                                                  <option value="Inventor" <% if (user.role === "Inventor") { %>selected<% } %>>Creator (Have an idea to put before Investors)</option>
+                                                                  <option value="Investor" <% if (user.role === "Investor") { %>selected<% } %>>Investor (Looking for Ideas TO Buy)</option>
+                                                                </select>
+                                                                
+                                                        </div>
+
+                                                            <div class="col-12">
+                                                                <ul class="actions">
+                                                                  <li><input type="submit" class="button" value="Update Profile" /></li>
+                                                                </ul>
+                                                              </div>
+                                                              
+                                                        </div>
+                                                    </form>
+                                                </article>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-12-narrower">
+                                        <div id="sidebar">
+        
+                                            <!-- Sidebar -->
+        
+                                                <section>
+                                                    <h3>Just a Subheading</h3>
+                                                    <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
+                                                    Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
+                                                    Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis et nisi etiam.</p>
+                                                    <footer>
+                                                        <a href="#" class="button">Continue Reading</a>
+                                                    </footer>
+                                                </section>
+        
+                                                <section>
+                                                    <%- include('../partials/profilelinks') -%>
+                                                </section>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                <%- include('../partials/footer') -%>

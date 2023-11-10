@@ -1,0 +1,35 @@
+<%- include('../partials/header') -%>
+
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div id="content">
+
+            <!-- Content -->
+
+                <article>
+                    <header>
+                        <h2><%= result[0].title %></h2>
+                        <p><%= result[0].main_feature1 %></p>
+                    </header>
+
+                    <span class="image featured"><img src="/<%= result[0].image %>" alt="" /></span>
+
+                    <h3><%= result[0].heading %></h3>
+
+                    <p><%= result[0].paragraph1 %></p>
+
+                    
+                    <h3><%= result[0].heading2 %></h3>
+
+                    <p><%= result[0].paragraph2 %></p>
+                </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+<%- include('../partials/footer') -%>

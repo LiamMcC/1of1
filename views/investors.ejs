@@ -1,0 +1,73 @@
+<%- include('../partials/header') -%>
+
+				<%- include('../partials/banner') -%>
+
+     
+
+
+			<!-- Gigantic Heading -->
+				<section class="wrapper style2" style="padding-top:0px;padding-bottom:0px;">
+					<div class="container">
+						<header class="major">
+							<h2>Inventions From All Parts Of The Tech Industry.</h2>
+							<p>Contact inventors and invest in your next big thing!</p>
+						</header>
+					</div>
+				</section>
+
+			<!-- Posts -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row">
+                            <% result.forEach(function(investor) { %>
+                            
+                                <% var namex = investor.userName 
+                    var realnamefixed = namex.replace(/ /g , "-");
+                    %>
+
+							<section class="col-6 col-12-narrower">
+								<div class="box post">
+									<a href="#" class="image left"><img src="banner.jpg" alt="" /></a>
+									<div class="inner">
+										<h3><%= investor.userName %></h3>
+                                        <p><%= investor.role %></p>
+                                        <p><%= investor.role %></p>
+                                        <p><a href="/publicprofile/<%= investor.userName %>/<%= investor.Id %>" >Find Out More...</a></p>
+										
+									</div>
+								</div>
+							</section>
+
+                            <% }); %>
+						
+						</div>
+
+						<div class="pagination-container">
+							<ul class="pagination">
+							  <% var numPages = Math.ceil(totalRows / numRowsPerPage); %>
+							  <% for (var i = 1; i <= numPages; i++) { %>
+							  <% var offset = (i - 1) * numRowsPerPage; %>
+							  <a style="border-bottom: none;" href="/investors?offset=<%= offset %>">
+							  <li class="page-item <% if (currentPage === i) { %>active<% } %>" >
+								<%= i %>
+							  </li>
+							  <% } %>
+							</ul>
+						  </div>
+					</div>
+				</section>
+
+			<!-- CTA -->
+				<section id="cta" class="wrapper style3">
+					<div class="container">
+						<header>
+							<h2>Do you have an idea or are you an investor?</h2>
+							<a href="/register" class="button">Register Now</a>
+						</header>
+					</div>
+				</section>
+
+
+                <%- include('../partials/footer') -%>
+
+	

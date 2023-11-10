@@ -1,0 +1,112 @@
+<%- include('../partials/header') -%>
+
+<%- include('../partials/banner') -%>
+
+
+
+
+
+
+
+
+			<!-- Main -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row gtr-200">
+							<div class="col-4 col-12-narrower">
+								<div id="sidebar1">
+
+									<!-- Sidebar 1 -->
+
+										<section>
+											<h3><%= user.userName %>'s Picture</h3>
+											<p><span class="image featured"><img src="/resized/<%= user.uPice %>" alt="<%= user.uPice %>" /></span>
+												Current Role: <%= user.role %></p>
+											
+										</section>
+
+
+										<section>
+											<h3>Subscription</h3>
+											<ul class="links">
+												<li>Membership Status: <%= user.membership_status %></li>
+												
+											</ul>
+											
+										</section>
+
+										<section>
+
+
+											<h3>Inventions</h3>
+
+											<% if (user.role === 'Investor') { %>
+												<p>This user will have no items for sale as they are an Investor.</p>
+											  <% } else { %>
+												
+												
+												<ul class="links">
+													<% if (!result[2] || result[2].length === 0) { %>
+													  <li>This user has not yet listed any items.</li>
+													<% } else { %>
+													  <% result[2].forEach(function(myInvents) { %>
+														<% var namex = myInvents.title 
+														var realnamefixed = namex.replace(/ /g , "-");
+%>
+
+														<li><a href="/marketplace/<%= realnamefixed %>/<%= myInvents.item_id %>"><b><%= myInvents.title %></b></a></li>
+													  <% }); %>
+													<% } %>
+												  </ul>
+
+
+											  <% } %>
+
+
+										
+											
+										</section>
+
+
+
+								</div>
+							</div>
+							<div class="col-8 col-12-narrower imp-narrower">
+								<div id="content">
+
+									<!-- Content -->
+
+										<article>
+											<header>
+												<h2>About <%= user.userName %></h2>
+												<p><%= user.role %></p>
+												
+											</header>
+
+											<h3>Summary</h3>
+											<p><%= user.summary %></p>
+
+											<h3>About Me</h3>
+											<p><%= user.allAbout %></p>
+
+											<h3>Interests</h3>
+											<p><%= result[1]?.[0]?.interests ?? 'This user has not registered any interests yet. Check back soon' %></p>
+
+											<h3>Expecting</h3>
+											<p><%= result[1]?.[0]?.expecting ?? 'This user has not registered any expectations yet. Check back soon' %></p>
+
+											<h3>A Bit More</h3>
+											<p><%= result[1]?.[0]?.aboutMe ?? 'This user has not registered any additional information yet. Check back soon' %></p>
+
+
+										</article>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+			<%- include('../partials/footer') -%>

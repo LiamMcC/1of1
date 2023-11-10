@@ -1,0 +1,116 @@
+<%- include('../partials/header') -%>
+
+
+
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+
+                    <div class="col-12  col-12-narrower imp-narrower">
+                        <div id="content">
+
+                            <!-- Content -->
+
+                                <article>
+
+                                    <header>
+                                        <% if (!result[0] || result[0].length === 0) { %>
+                                            <h2>You Have No Messages</h2>
+                                          <% } else { %>
+                                            <% result[0].forEach(function(myInvents) { %>
+                                                <h3>Title: <%= myInvents.message_subject %></h3>
+                                        
+                                            <% }); %>
+                                          <% } %>
+
+
+                                       
+                                        
+                                    </header>
+
+                                    
+                                    <% result[3].forEach(function(messageStuff) { %>
+                                    <p><span style="color:rgb(243, 50, 16)">Message from <%= messageStuff.sender_name %>:</span><br><%= messageStuff.message_text %></p>
+                                    <% }); %>
+
+                                    <footer>
+
+                                        
+                                          
+                                      <% result[3].forEach(function(messageStuff) { %>
+
+                                        <% if (user.Id == messageStuff.sender_id) { %>
+                                          <p>Note: You were the last sender in this corrispondence</p>
+                                          <% } else { %>
+                                            <form action="/reply/<%= messageStuff.message_id %>" method="post">
+                                                <div class="row gtr-50">
+                                                    <input type="hidden" name="whoto" value="<%= messageStuff.sender_id %>">
+    
+                                                    <div class="col-12">
+                                                        <ul class="actions">
+                                                            <textarea name="reply" id="reply" rows="5"></textarea>
+                                                        </ul>
+                                                    </div>
+    
+                                                    <div class="col-12">
+                                                        <ul class="actions">
+                                                            <li><input type="submit" class="button alt" value="Reply To <%= messageStuff.sender_name %>" /></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </form>
+    
+                                          <% } %>
+                                       
+
+
+
+
+                                            
+                                        <% }); %>
+
+                                        
+
+                                                              
+                                       
+                                       
+                                    </footer>
+                                </article>
+
+                                <article>
+                                    <h2>Message Thread</h2>
+                                    
+                                    
+                                    <% if (!result[1] || result[1].length === 0) { %>
+                                        <p>There Are no previous messages to see ...</p>
+                                      <% } else { %>
+                                        <% result[1].forEach(function(previousThread) { %>
+                                            <div class="col-12">
+
+                                            <p>
+                                                <%= previousThread.timestamp %></br>
+                                                <b><%= previousThread.sender_name %> Wrote:</b>  <%= previousThread.message_text %></p>
+                                        </div>
+
+                                         
+                                        <% }); %>
+                                      <% } %>
+
+
+
+                                </article>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>
+
+
+
+

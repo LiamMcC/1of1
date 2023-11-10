@@ -1,0 +1,89 @@
+<%- include('../partials/header') -%>
+
+				<%- include('../partials/banner') -%>
+
+               
+
+
+			<!-- Highlights -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row gtr-200">
+                            <% result[0].forEach(function(wContent) { %>
+                            
+                                <% var namex = wContent.title 
+                    var namexfixed = namex.replace(/ /g , "-");
+                    %>
+                    
+                    
+                           
+							<section class="col-4 col-12-narrower">
+								<div class="box highlight">
+									<i class="<%= wContent.icon %>"></i>
+									<h3><%= wContent.title %></h3>
+									
+                                        <p><%= wContent.blurb %></p>
+                                        
+                                    <p><a href="/1of1info/<%= wContent.location %>">More</a></p>
+								</div>
+							</section>
+                            <% }); %>
+
+							
+						</div>
+					</div>
+				</section>
+
+			<!-- Gigantic Heading -->
+				<section class="wrapper style2" style="padding-top:0px;padding-bottom:0px;">
+					<div class="container">
+						<header class="major">
+							<h2>Inventions From All Parts Of The Tech Industry.</h2>
+							<p>Contact inventors and invest in your next big thing!</p>
+						</header>
+					</div>
+				</section>
+
+			<!-- Posts -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row">
+                            <% result[1].forEach(function(iContent) { %>
+                            
+                                <% var namex = iContent.title 
+                    var realnamefixed = namex.replace(/ /g , "-");
+                    %>
+
+							<section class="col-6 col-12-narrower">
+								<div class="box post">
+									<a href="#" class="image left"><img src="banner.jpg" alt="" /></a>
+									<div class="inner">
+										<h3><%= iContent.title %></h3>
+                                        <p><%= iContent.blurb %></p>
+                                        <p><a href="/marketplace/<%= realnamefixed %>/<%= iContent.item_id %>" >Find Out More...</a></p>
+										
+									</div>
+								</div>
+							</section>
+
+                            <% }); %>
+						
+						</div>
+
+					</div>
+				</section>
+
+			<!-- CTA -->
+				<section id="cta" class="wrapper style3">
+					<div class="container">
+						<header>
+							<h2>Do you have an idea or are you an investor?</h2>
+							<a href="/register" class="button">Register Now</a>
+						</header>
+					</div>
+				</section>
+
+
+                <%- include('../partials/footer') -%>
+
+	

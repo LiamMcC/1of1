@@ -1,0 +1,159 @@
+<%- include('../partials/header') -%>
+
+<%- include('../partials/banner') -%>
+
+
+
+			<!-- Main -->
+				<section class="wrapper style1">
+					<div class="container">
+						<div class="row gtr-200">
+							<div class="col-3 col-12-narrower">
+								<div id="sidebar1">
+
+									<!-- Sidebar 1 -->
+
+										<section>
+											<h3><%= user.userName %>'s Picture</h3>
+											<p><span class="image featured"><img src="/resized/<%= user.uPice %>" alt="<%= user.uPice %>" /></span>
+												Current Role: <%= user.role %></p>
+											
+										</section>
+
+
+										<section>
+											<h3>Subscription</h3>
+											<ul class="links">
+												<li><a href="#">Membership Status: <%= user.membership_status %></a></li>
+												
+											</ul>
+											<footer>
+												<a href="#" class="button">Renew</a>
+											</footer>
+										</section>
+
+										<section>
+											<%- include('../partials/profilelinks') -%>
+											
+										</section>
+
+
+
+								</div>
+							</div>
+							<div class="col-6 col-12-narrower imp-narrower">
+								<div id="content">
+
+									<!-- Content -->
+
+										<article>
+											<header>
+												<h2>About <%= user.userName %></h2>
+												<p><%= user.role %></p>
+												
+											</header>
+
+											<h3>Summary</h3>
+											<p><%= user.summary %></p>
+
+											<h3>About Me</h3>
+											<p><%= user.allAbout %></p>
+
+											
+											<h3>Interests</h3>
+											<% if (result[1] && result[1][0] && result[1][0].interests) { %>
+											<p><%= result[1][0].interests %></p>
+											<% } else { %>
+											<p>No info supplied</p>
+											<% } %>
+
+											<h3>Expecting</h3>
+											<% if (result[1] && result[1][0] && result[1][0].expecting) { %>
+											<p><%= result[1][0].expecting %></p>
+											<% } else { %>
+											<p>No info supplied</p>
+											<% } %>
+
+											<h3>A Bit More</h3>
+											<% if (result[1] && result[1][0] && result[1][0].aboutMe) { %>
+											<p><%= result[1][0].aboutMe %></p>
+											<% } else { %>
+											<p>No info supplied</p>
+											<% } %>
+
+
+
+										</article>
+
+								</div>
+							</div>
+							<div class="col-3 col-12-narrower">
+								<div id="sidebar2">
+
+									<!-- Sidebar 2 -->
+
+										<section>
+											<h3>New Messages </h3>
+											<ul class="links" id="messages-list">
+												<% if (!result[4] || result[4].length === 0) { %>
+													<li>You Have No Messages</li>
+												  <% } else { %>
+													<% result[4].forEach(function(myInvents) { %>
+
+														<% if (!myInvents.erad_Status || myInvents.previously_opened == user.Id) { %>
+															
+															<b> <i> <li><a href="/readmessage/<%= myInvents.message_id %>" style="color:rgb(241, 103, 11)"><b><%= myInvents.message_subject %> (Unread)</b></a></li></i></b>
+														  <% } else { %>
+															<li><a href="/readmessage/<%= myInvents.message_id %>" style="color:rgb(38, 184, 116)"><b><%= myInvents.message_subject %> (Read)</b></a></li>
+														  <% } %>
+
+
+													 
+													<% }); %>
+												  <% } %>
+											</ul>
+
+											
+										</section>
+										<section>
+											<h3>All Messages</h3>
+											<ul class="links">
+												<li><a href="/inbox" >Message Inbox</a></li>
+												<li><a href="/outbox" >Sent Messages</a></li>
+
+											</ul>
+										</section>
+										<section>
+											<h3>My Inventions</h3>
+											<ul class="links">
+												<% if (!result[3] || result[3].length === 0) { %>
+												  <li>This user has not yet listed any items.</li>
+												<% } else { %>
+												  <% result[3].forEach(function(myInvents) { %>
+													<li><a href="/editinvention/<%= myInvents.item_id %>"><b><%= myInvents.title %> (<%= myInvents.item_id %>)</b></a></li>
+												  <% }); %>
+												<% } %>
+											  </ul>
+											  
+										
+										</section>
+									
+
+
+										<section>
+											<h3>Latest Investor</h3>
+											<p><%= result[2][0].userName %></p>
+											<p><%= result[2][0].summary %></p>
+											<footer>
+												<a href="/publicprofile/<%= result[2][0].userName %>" class="button">About <%= result[2][0].userName %></a>
+											</footer>
+										</section>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+			<%- include('../partials/footer') -%>

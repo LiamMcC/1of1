@@ -1,0 +1,122 @@
+<%- include('../partials/header') -%>
+
+				
+
+						<!-- Main -->
+                        <section class="wrapper style1">
+                            <div class="container">
+                                <div class="row gtr-200">
+                                    <div class="col-8 col-12-narrower">
+                                        <div id="content">
+        
+                                            <!-- Content -->
+        
+                                                <article>
+                                                    <header>
+                                                        <h2>Post A New Item To The Marketplace</h2>
+                                                        
+                                                        <% if (message) { %>
+                                                            <div class="col-md-12">
+                                                            <h3 style="color: red;"><%= message %></h3>
+                                                          </div>
+                                                            <% } %>
+                                                   
+                                                    </header>
+        
+                                                    <form action="/admineditthisblog/<%= result[0].Id %>" enctype="multipart/form-data" method="post">
+                                                        <div class="row gtr-50">
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Title</P>
+                                                                <input name="title" type="text" value="<%= result[0].Title %>" >
+                                                                
+                                                                
+                                                            </div>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Icon</P>
+                                                                <input name="icon" type="text" value="<%= result[0].Icon %>" >
+                                                            </div>
+
+                                                            
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <img src="/<%= result[0].Image %>" alt="<%= result[0].Image %>" style="width:230px;"/>
+                                                                <P style="margin-bottom: 0px;">Image</P>
+                                                                <label style="display: inline-block; background-color: #0077FF; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                                                                    <span id="file-name-label">Choose an Image</span>
+                                                                    <input type="file" style="display: none;" name="image" accept="image/*" onchange="displayFileName(this)">
+                                                                </label>
+                                                            </div>
+                                                            
+                                                            <script>
+                                                            function displayFileName(input) {
+                                                                const fileInput = document.querySelector('input[type="file"]');
+                                                                const fileNameLabel = document.getElementById('file-name-label');
+                                                                
+                                                                if (fileInput.files.length > 0) {
+                                                                    fileNameLabel.textContent = fileInput.files[0].name;
+                                                                } else {
+                                                                    fileNameLabel.textContent = 'Choose an Image';
+                                                                }
+                                                            }
+                                                            </script>
+                                                            
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Image Title</P>
+                                                                <input name="imagetitle" type="text" value="<%= result[0].ImageTitle %>">
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Small Title</P>
+                                                                <input name="smallbit" type="text"  value="<%= result[0].SmallBit %>">
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Author</P>
+                                                                <input name="author" type="text"  id="name" value="<%= result[0].author %>">
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Content</P>
+                                                                <textarea name="description" rows="18"  id="message"><%= result[0].Description %></textarea>
+                                                            </div>
+
+                                                          
+
+                                                            <div class="col-12">
+                                                                <ul class="actions">
+                                                                  <li><input type="submit" class="button" value="Edit This Blog" /></li>
+                                                                </ul>
+                                                              </div>
+                                                              
+                                                        </div>
+                                                    </form>
+                                                </article>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-12-narrower">
+                                        <div id="sidebar">
+        
+                                            <!-- Sidebar -->
+        
+<section>
+    <h3>Be patient here</h3>
+    <p>Give as much details as you can in these sections. Be sure to be clear and explain everything any user may not naturally know.</p>
+</section>
+        
+                                                <section>
+                                                    <%- include('../partials/profilelinks') -%>
+                                                </section>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                <%- include('../partials/footer') -%>

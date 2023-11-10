@@ -1,0 +1,62 @@
+<%- include('../partials/header') -%>
+
+
+
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                
+                <div class="row gtr-200">
+                    
+                    <div class="col-4 col-12-narrower">
+                        <div id="sidebar">
+
+                            <!-- Sidebar -->
+                            <section>
+                                <h3><a href="/blog#blogStarter">&#8612; Back To Blogs </a></h3>
+                               
+                              
+                            </section>
+
+                            <section>
+                                <h3>In This Blog</h3>
+                                
+                                   <p><%= result[0].SmallBit %></p>
+                                    
+                                </section>
+
+                                <section>
+                                    <h3>Author</h3>
+                                    <p><%= result[0].author %></p>
+                                  
+                                </section>
+
+                        </div>
+                    </div>
+                    <div class="col-8  col-12-narrower imp-narrower">
+                        <div id="content">
+                            
+                            <!-- Content -->
+
+                                <article>
+                                    <header>
+                                        <h2><%= result[0].Title %></h2>
+                                        <p>Date: <%= result[0].dateWritten %></p>
+                                    </header>
+
+                                    <span class="image featured"><img src="/resized/<%= result[0].Image %>" alt="" /></span>
+
+                                    <p><%= result[0].Description %></p>
+
+                                   
+                                </article>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>

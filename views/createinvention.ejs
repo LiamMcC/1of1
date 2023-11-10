@@ -1,0 +1,142 @@
+<%- include('../partials/header') -%>
+
+				
+
+						<!-- Main -->
+                        <section class="wrapper style1">
+                            <div class="container">
+                                <div class="row gtr-200">
+                                    <div class="col-8 col-12-narrower">
+                                        <div id="content">
+        
+                                            <!-- Content -->
+        
+                                                <article>
+                                                    <header>
+                                                        <h2>Post A New Item To The Marketplace</h2>
+                                                        <p><span style="color: red">Warning:</span> Be Sure you fully understand that this may lead to a public disclosure of an item. If you are intensing to apply for a patent application do not list the item here before the application is placed with a patent office. </p>
+                                                   
+                                                        <% if (message) { %>
+                                                            <div class="col-md-12">
+                                                            <h3 style="color: red;"><%= message %></h3>
+                                                          </div>
+                                                            <% } %>
+                                                   
+                                                    </header>
+        
+                                                    <form action="/createinvention" enctype="multipart/form-data" method="post">
+                                                        <div class="row gtr-50">
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Title</P>
+                                                                <input type="text" name="title" id="name" placeholder="Invention Title" />
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Image</P>
+                                                                <label style="display: inline-block; background-color: #0077FF; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                                                                    <span id="file-name-label">Choose an Image</span>
+                                                                    <input type="file" style="display: none;" name="image" accept="image/*" onchange="displayFileName(this)">
+                                                                </label>
+                                                            </div>
+                                                            
+                                                            <script>
+                                                            function displayFileName(input) {
+                                                                const fileInput = document.querySelector('input[type="file"]');
+                                                                const fileNameLabel = document.getElementById('file-name-label');
+                                                                
+                                                                if (fileInput.files.length > 0) {
+                                                                    fileNameLabel.textContent = fileInput.files[0].name;
+                                                                } else {
+                                                                    fileNameLabel.textContent = 'Choose an Image';
+                                                                }
+                                                            }
+                                                            </script>
+
+
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Heading</P>
+                                                                <textarea name="heading1" id="message" rows="5">Main Heading</textarea>
+                                                            </div>
+                                                            <div class="col-12 col-12-mobilep">
+                                                                <P style="margin-bottom: 0px;">Main Paragraph</P>
+                                                                <textarea name="paragraph1" id="message" rows="5">Main Paragraph</textarea>
+
+                                                                
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Sub Heading</P>
+                                                                <textarea name="heading2" id="message" rows="5">Sub Heading</textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Sub Paragraph</P>
+                                                                <textarea name="paragraph2" id="message" rows="5">Sub Paragraph</textarea>
+                                                                
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 1 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature1" placeholder="First Main Feature"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 2 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature2" placeholder="Second Main Feature"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 3 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature3" placeholder="Third Main Feature"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 4 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature4" placeholder="Fourth Main Feature"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Main Feature 5 (50 Charachters Max)</P>
+                                                                <input type="text" name="mainfeature5" placeholder="Fifth Main Feature"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Value Required (Numbers Only)</P>
+                                                                <input type="number" name="valuedat" placeholder="Asking Price (Numbers Only)"/>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <ul class="actions">
+                                                                  <li><input type="submit" class="button" value="Create Invention" /></li>
+                                                                </ul>
+                                                              </div>
+                                                              
+                                                        </div>
+                                                    </form>
+                                                </article>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-12-narrower">
+                                        <div id="sidebar">
+        
+                                            <!-- Sidebar -->
+        
+<section>
+    <h3>Be patient here</h3>
+    <p>Give as much details as you can in these sections. Be sure that you hav eread and understand all the reasons to list or not list and item here</p>
+</section>
+        
+                                                <section>
+                                                    <%- include('../partials/profilelinks') -%>
+                                                </section>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                <%- include('../partials/footer') -%>
