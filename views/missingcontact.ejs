@@ -1,0 +1,51 @@
+<%- include('../partials/header') -%>
+
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div id="content">
+
+            <!-- Content -->
+
+                <article>
+                    <header>
+                        <h2>You Missed Something!</h2>
+                        <p>
+                            It looks like you missed something in the required fields when contacting us. The form is below so give it another try!
+                            <br></p>
+                    </header>
+
+
+                    <form action="/contact" method="post">
+                        <div class="row gtr-50">
+                            <div class="col-6 col-12-mobilep">
+                                <input type="text" name="fullname" id="name" placeholder="Name" />
+                            </div>
+                            <div class="col-6 col-12-mobilep">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="col-12">
+                                <textarea name="comment" id="message" placeholder="Message" rows="5"></textarea>
+                            </div>
+                            
+
+                            <div class="col-12 col-12-mobilep">
+                                <input type="text" name="verifybox" id="email" placeholder="What Is The Capital Of Spain" />
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" class="button alt" value="Send Message" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+<%- include('../partials/footer') -%>

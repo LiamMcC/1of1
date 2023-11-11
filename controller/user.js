@@ -363,7 +363,14 @@ router.post('/login', passport.authenticate('local-login', {
        });
 
 
-       router.post('/xxxxxx',  function(req, res, next){  
+
+       router.get('/resetpassword', function(req, res, next) {
+        const currentRoute = req.url;
+        res.render('forgottenpassword', {currentRoute, user: req.user})
+      });
+
+
+       router.post('/changeandresetpassword',  function(req, res, next){  
         
         function makeid(length) {
             var result           = '';

@@ -4,6 +4,9 @@ var router = express.Router();
 var bodyParser = require("body-parser") // call body parser module and make use of it
 router.use(bodyParser.urlencoded({extended:true}));
 var db = require('../db');
+var Email = require("../coms/email.js");
+var flash    = require('connect-flash');
+router.use(flash()); // use connect-flash for flash messages stored in session
 router.use(require('./user'))
 // var Email = require("../coms/email.js");
 
@@ -104,6 +107,88 @@ let query = db.query(sql,[req.params.userName], (err, result) => {
 
 
 });
+
+
+
+// ****** Email Contact handlers
+router.get('/contact', function(req, res, err){
+  const currentRoute = req.url;
+ 
+  if(err) {
+    res.redirect('/error'); // Redirect to error page
+  } else { 
+    res.render('contactus', {result, user: req.user, currentRoute, message});
+  }
+  });
+
+
+  router.post('/contact', function(req, res){
+         if (req.body.verifybox == "Madrid" || req.body.verifybox == "madrid" || req.body.verifybox == "MADRID" ) {
+
+          if (!req.body.fullname || !req.body.email || !req.body.comment) {
+            res.redirect('/missingdata')
+          } else {
+            Email.contactMailForm(req.body.fullname, req.body.email, req.body.comment, req.body.verifybox)
+            res.redirect('/thankyou')
+          }
+
+          } else {
+
+            res.redirect('/wrongcaptcha')
+              
+          }
+
+
+     
+    });
+
+    router.get('/missingdata', function(req, res){
+      const currentRoute = req.url;
+      res.render('missingcontact', {user: req.user, currentRoute});
+      });
+
+    router.get('/thankyou', function(req, res){
+      const currentRoute = req.url;
+        res.render('thankyou', {user: req.user, currentRoute});
+      });
+    
+
+
+      router.get('/wrongcaptcha', function(req, res){
+        const currentRoute = req.url;
+
+            let sql = 'SELECT * FROM webContent WHERE location ="Wrong"';
+            let query = db.query(sql, (err,result) => {
+              if(err) {
+                res.redirect('/error'); // Redirect to error page
+              } else { 
+                res.render('wrongcaptcha', {currentRoute});
+              }
+            });
+         
+        });
+  
+// ****** End Email Contact Handlers
+
+// ****************** Error Route 
+
+router.get('/error', function(req, res){
+  //let grandItems = 0
+  const currentRoute = req.url;
+
+  let sql = 'SELECT * FROM webContent WHERE location ="Error"';
+  let query = db.query(sql, (err,result) => {
+    if(err) {
+      res.redirect('/error'); // Redirect to error page
+    } else { 
+      res.render('error', {result, user: req.user, currentRoute});
+    }
+  });
+});
+
+
+// ****************** Error Route 
+
 
 
   module.exports = router;
