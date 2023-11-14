@@ -19,9 +19,9 @@
 									<!-- Sidebar 1 -->
 
 										<section>
-											<h3><%= user.userName %>'s Picture</h3>
+											<h3><%= result[0][0].userName %>'s Picture</h3>
 											<p><span class="image featured"><img src="/resized/<%= user.uPice %>" alt="<%= user.uPice %>" /></span>
-												Current Role: <%= user.role %></p>
+												Current Role: <%= result[0][0].role %></p>
 											
 										</section>
 
@@ -29,7 +29,7 @@
 										<section>
 											<h3>Subscription</h3>
 											<ul class="links">
-												<li>Membership Status: <%= user.membership_status %></li>
+												<li>Membership Status: <%= result[0][0].membership_status %></li>
 												
 											</ul>
 											
@@ -78,16 +78,16 @@
 
 										<article>
 											<header>
-												<h2>About <%= user.userName %></h2>
-												<p><%= user.role %></p>
+												<h2>About <%= result[0][0].userName %></h2>
+												<p><%= result[0][0].role %></p>
 												
 											</header>
 
 											<h3>Summary</h3>
-											<p><%= user.summary %></p>
+											<p><%= result[0][0].summary %></p>
 
 											<h3>About Me</h3>
-											<p><%= user.allAbout %></p>
+											<p><%= result[0][0].allAbout %></p>
 
 											<h3>Interests</h3>
 											<p><%= result[1]?.[0]?.interests ?? 'This user has not registered any interests yet. Check back soon' %></p>

@@ -79,7 +79,7 @@ function checkMembershipStatus(req, res, next) {
     if (req.user.membership_status === 'Active' ) {
       next(); // User has an active membership.
     } else {
-      res.status(403).send('Membership expired or inactive.');
+      res.redirect('/1of1info/Membership');
     }
   }
 
@@ -100,6 +100,13 @@ router.get('/deniedpermission', isLoggedIn,function(req, res, next) {
     const currentRoute = req.url;
     res.render('deniedpermission', {currentRoute, user: req.user})
   });
+
+
+  router.get('/expiredmembership', isLoggedIn,function(req, res, next) {
+    const currentRoute = req.url;
+    res.render('expiredmembership', {currentRoute, user: req.user})
+  });
+
 
 
 router.get('/login', function(req, res) {
@@ -144,23 +151,56 @@ router.post('/login', passport.authenticate('local-login', {
 
 	
 
-	router.get('/profile', isLoggedIn,  function(req, res) {
-        const successMessage = req.flash('wrongcombo');
-        const currentRoute = req.url;
-        // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
-        let sql = 'select * from users WHERE userName = ?; select * from profileData where user_id = ?;select userName, summary from users order by Id DESC LIMIT 1; SELECT title, item_id FROM inventItems where createdBy = ?; SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ';
-        let query = db.query(sql,[req.user.username, req.user.Id, req.user.userName, req.user.Id, req.user.Id, req.user.Id, req.user.Id, req.user.Id], (err,result) => {     
-            if (err) {
+	// router.get('/profile', isLoggedIn,  function(req, res) {
+  //       const successMessage = req.flash('wrongcombo');
+  //       const currentRoute = req.url;
+  //       // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
+  //       let sql = 'select * from users WHERE userName = ?; select * from profileData where user_id = ?;select userName, summary from users order by Id DESC LIMIT 1; SELECT title, item_id FROM inventItems where createdBy = ?; SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ';
+  //       let query = db.query(sql,[req.user.username, req.user.Id, req.user.userName, req.user.Id, req.user.Id, req.user.Id, req.user.Id, req.user.Id], (err,result) => {     
+  //           if (err) {
                
                
-              }  
+  //             }  
              
-                res.render('profile', {result, user: req.user, currentRoute, message: successMessage });    
-                });  
+  //               res.render('profile', {result, user: req.user, currentRoute, message: successMessage });    
+  //               });  
+  //   });
+
+
+  // *************** SAMPLING PROFILE ROUTE TO CHECK FOR SUBSCRIPTIONS 
+
+
+  router.get('/profile', isLoggedIn, function(req, res) {
+    const successMessage = req.flash('wrongcombo');
+    const currentRoute = req.url;
+  
+    // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
+    let sql =
+      'SELECT * FROM users WHERE userName = ?; ' +
+      'SELECT * FROM profileData WHERE user_id = ?; ' +
+      'SELECT userName, summary FROM users ORDER BY Id DESC LIMIT 1; ' +
+      'SELECT title, item_id FROM inventItems WHERE createdBy = ?; ' +
+      'SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ' +
+      'UPDATE users SET membership_status = ? WHERE date_paid < DATE_SUB(NOW(), INTERVAL 2 MINUTE);';
+  
+    let query = db.query(sql, [req.user.username, req.user.Id, req.user.userName, req.user.Id, req.user.Id, req.user.Id, req.user.Id, req.user.Id, "Expired"], (err, result) => {
+      if (err) {
+        // Handle the error appropriately
+      }
+  
+      // const [userResults, profileResults, latestUserResult, inventItemsResults, messagesResults] = result;
+  
+      // Continue with rendering the profile page using the obtained results
+      res.render('profile', {
+        result, user: req.user, currentRoute, message: successMessage 
+      });
     });
+  });
+
+  // *************** SAMPLING PROFILE ROUTE TO CHECK FOR SUBSCRIPTIONS 
 
 
-    router.get('/getnewmessages', isLoggedIn, function(req, res) {
+    router.get('/getnewmessages', isLoggedIn,  function(req, res) {
         // Replace this part with your database query to fetch new messages
         // You should send the messages data as JSON, not render the whole page.
         let sql = 'SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ';
@@ -178,7 +218,7 @@ router.post('/login', passport.authenticate('local-login', {
 
     // ********* Start Messages Be Careful With logic Here 
 
-	router.get('/readmessage/:id', isLoggedIn,  function(req, res) {
+	router.get('/readmessage/:id', isLoggedIn, checkMembershipStatus, function(req, res) {
         const successMessage = req.flash('wrongcombo');
         const currentRoute = req.url;
         let sql = 'SELECT * FROM Messages WHERE (receiver_id = ? AND message_id = ?) OR (sender_id = ? OR message_id = ?) ORDER BY message_id DESC Limit 1;SELECT * FROM MessageThreads WHERE (receiver_id = ? OR sender_id = ?) AND message_id = ?; update Messages set erad_Status = ?, previously_opened = ? where message_id = ?;SELECT * FROM MessageThreads WHERE (receiver_id = ? OR sender_id = ?) AND message_id = ? ORDER BY thread_id DESC LIMIT 1';
@@ -196,7 +236,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 
-	router.post('/messageinventor/:id', isLoggedIn,  function(req, res) {
+	router.post('/messageinventor/:id', isLoggedIn, checkMembershipStatus, function(req, res) {
         const successMessage = req.flash('messagesent', "Thank you for sending the message");
         const currentRoute = req.url;
         const currentTimestamp = new Date();
@@ -237,7 +277,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 
-    router.get('/inbox', isLoggedIn,  function(req, res) {
+    router.get('/inbox', isLoggedIn, checkMembershipStatus, function(req, res) {
       const successMessage = req.flash('wrongcombo');
       const currentRoute = req.url;
       // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
@@ -254,7 +294,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 
-  router.get('/outbox', isLoggedIn,  function(req, res) {
+  router.get('/outbox', isLoggedIn, checkMembershipStatus, function(req, res) {
     const successMessage = req.flash('wrongcombo');
     const currentRoute = req.url;
     // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
@@ -273,7 +313,7 @@ router.post('/login', passport.authenticate('local-login', {
     // ********* End Messages Be Careful With logic Here 
 
                
-    router.get('/publicprofile/:username/:id', isLoggedIn,  function(req, res) {
+    router.get('/publicprofile/:username/:id', isLoggedIn, checkMembershipStatus, function(req, res) {
         const successMessage = req.flash('wrongcombo');
         const currentRoute = req.url;
         let sql = 'select * from users WHERE userName = ?; select * from profileData where user_id = ?; SELECT title, item_id, paragraph1 FROM inventItems where creator_id = ?';
@@ -288,7 +328,20 @@ router.post('/login', passport.authenticate('local-login', {
     });
 
 
-
+    router.get('/pastsubscriptions', isLoggedIn,  function(req, res) {
+      const currentRoute = req.url;
+      let sql = 'SELECT * FROM subscriptions WHERE userName = ? and userId = ? ORDER BY sub_id DESC; ';
+      let query = db.query(sql, [req.user.userName, req.user.Id], (err, result) => {
+        if (err) {
+          // Handle errors
+          res.redirect("/error");
+        } else {
+          // Send the messages data as JSON
+          res.render("pastsubscriptions", {result, user: req.user, currentRoute});
+          
+        }
+      });
+    });
 
 	
 
@@ -458,12 +511,28 @@ router.post('/login', passport.authenticate('local-login', {
     router.post('/editprofile', isLoggedIn,function(req, res, next) {
         const somethingMissing = req.flash('This Field Can Not Be Blank');
         
-        let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
-        let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.user.Id],(err,result) => {
-           if(err) throw err;
-            res.redirect('/profile')
-            
-        });
+        db.query("SELECT * FROM profileData WHERE userName = ?",[req.user.userName], function(err, rows) {
+          if (err)
+              return done(err);
+          if (!rows.length) {
+            let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;INSERT INTO profileData (interests , aboutMe , expecting, userName, user_id) VALUES (?,?,?,?,?);'  
+            let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.user.userName, req.user.Id],(err,result) => {
+               if(err) throw err;
+                res.redirect('/profile')
+                
+            });
+          } else {
+            let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
+            let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.user.Id],(err,result) => {
+               if(err) throw err;
+                res.redirect('/profile')
+                
+            });
+          
+          }
+
+        })
+
     });
 
 

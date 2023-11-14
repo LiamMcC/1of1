@@ -3,27 +3,34 @@
             <div class="container">
                 <div class="row">
                     <section class="col-3 col-6-narrower col-12-mobilep">
-                        <h3>Links to Stuff</h3>
+                        <h3>Information</h3>
                         <ul class="links">
-                            <li><a href="/1of1info/addinvention">Add Invention</a></li>
-                            <li><a href="#">Suspendisse amet varius</a></li>
-                            <li><a href="#">Sed et dapibus quis</a></li>
-                            <li><a href="#">Rutrum accumsan dolor</a></li>
-                            <li><a href="#">Mattis rutrum accumsan</a></li>
-                            <li><a href="#">Suspendisse varius nibh</a></li>
-                            <li><a href="#">Sed et dapibus mattis</a></li>
+                            
+                            <li><a href="#">Subscriptions Information</a></li>
+                            <li><a href="#">Membership Information</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Research Areas</a></li>
+                            <li><a href="#">Blog Posts</a></li>
                         </ul>
                     </section>
                     <section class="col-3 col-6-narrower col-12-mobilep">
-                        <h3>More Links to Stuff</h3>
+                        <h3>Privacy</h3>
                         <ul class="links">
-                            <li><a href="#">Duis neque nisi dapibus</a></li>
-                            <li><a href="#">Sed et dapibus quis</a></li>
-                            <li><a href="#">Rutrum accumsan sed</a></li>
-                            <li><a href="#">Mattis et sed accumsan</a></li>
-                            <li><a href="#">Duis neque nisi sed</a></li>
-                            <li><a href="#">Sed et dapibus quis</a></li>
-                            <li><a href="/administration">Admin</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Acceptable Use Policy</a></li>
+                            <li><a href="#">Administration Policy</a></li>
+                            
+                            <% if (isAuthenticated) { %>
+                                <% if (user.adminRights == true) { %>
+                                    <li><a href="/administration">Admin</a></li>
+                                    <% } %>
+                                    <%} else { %>
+                                        li><a href="#">Research Matters</a></li>
+                                        <% } %>
+                            
                         </ul>
                     </section>
                     <section class="col-6 col-12-narrower">

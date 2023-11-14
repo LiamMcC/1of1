@@ -34,16 +34,15 @@
 
                                 <article>
                                     <header>
-                                        <h2><%= result[0].title %></h2>
-                                        <p>Created By: <a href="/publicprofile/<%= result[0].createdBy %>/<%= result[0].creator_id %>"><%= result[0].createdBy %></a></p>
+                                        <h2><%= result[0][0].title %></h2>
+                                        <p>Created By: <%= result[0][0].author %></p>
                                     </header>
 
                                     <span class="image featured"><img src="/banner.jpg" alt="" /></span>
 
-                                    <p><%= result[0].paragraph1 %></p>
+                                    <p><%= result[0][0].description %></p>
 
-                                    <h3><%= result[0].heading2 %></h3>
-                                    <p><%= result[0].paragraph2 %></p>
+                          
                                 </article>
 
                         </div>

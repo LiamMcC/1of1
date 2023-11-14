@@ -61,7 +61,7 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
 // ************** Get Admin Site Content Page 
   router.get('/adminsitecontent', isLoggedIn, isAdmin, function(req, res){
     const currentRoute = req.url;
-    let sql = 'select * from webContent';
+    let sql = 'select * from webContent ORDER BY location ASC';
   let query = db.query(sql,[req.params.id], (err,result) => {       
       if(err) throw err;    
       const errorMessage = req.flash('error');
@@ -159,21 +159,22 @@ router.get('/admininventions',  function(req, res){
 
 
 router.get('/adminusers', isLoggedIn, isAdmin, function(req, res){  
-
+  const currentRoute = req.url; 
   let sql = 'select * from users';
   let query = db.query(sql, (err,result) => { 
       if(err) throw err;
-      res.render('adminusers', {result, user: req.user, menubits: req.menubits});
+      res.render('adminusers', {result, user: req.user, currentRoute});
       });
   });
 
 
 
 router.get('/adminadduser', isLoggedIn, isAdmin, function(req, res){  
+  const currentRoute = req.url; 
   const successMessage = req.flash('wrongcombo');
   const errorMessage = req.flash('error');
   const adminMessageRegister = req.flash('signupMessage');
-    res.render('adminadduser', {user: req.user, menubits: req.menubits , message: successMessage, errorMessage});
+    res.render('adminadduser', {user: req.user, currentRoute , message: successMessage, errorMessage});
   });
 
 
@@ -223,23 +224,36 @@ router.get('/adminadduser', isLoggedIn, isAdmin, function(req, res){
 
 
 
-  router.post('/admineditthisuser/:id', isLoggedIn, isAdmin, upload.single("image"), async function(req, res){
-    let sql = 'UPDATE users SET uemail = ? , adminRights = ? WHERE Id = ?';
-    let query = db.query(sql, [req.body.email, req.body.adminrights, req.params.id],(err,res) => {
-        
-        if(err) throw err;
-      
-    });
+  router.get('/adminedituser/:id', isLoggedIn,isAdmin, function(req, res, next) {
+    const successMessage = req.flash('wrongcombo');
+    const currentRoute = req.url;
+    let sql = 'select * from users WHERE Id = ?';
+    let query = db.query(sql,[req.params.id], (err,result) => {     
+            if(err) throw err;    
+            res.render('admineditprofile', {result, user: req.user, currentRoute, message: successMessage });    
+            });  
+});
+
+
+router.post('/editprofile/:id', isLoggedIn, isAdmin, function(req, res, next) {
+    const somethingMissing = req.flash('This Field Can Not Be Blank');
     
-    res.redirect('/adminusers');
-  });
+    let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
+    let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.params.id],(err,result) => {
+       if(err) throw err;
+        res.redirect('/adminusers')
+        
+    });
+});
 
 
 
-  router.get('/admindeleteuser/:id', isLoggedIn, isAdmin, upload.single("image"), async function(req, res){
-   
-      let sql = 'DELETE FROM users WHERE Id = ?';
-      let query = db.query(sql, [req.params.id],(err,res) => {
+
+  router.get('/admindeleteuser/:id', isLoggedIn, isAdmin, function(req, res){
+    var deletedP = process.env.DELETE_PASSWORD
+    const hash = bcrypt.hashSync(deletedP);
+      let sql = 'Update users set role = ?, membership_status = ? , password = ?   WHERE Id = ?';
+      let query = db.query(sql, ["Deleted", "Deleted", hash, req.params.id],(err,res) => {
           
           if(err) throw err;
         
@@ -361,5 +375,62 @@ router.post('/newimage', isLoggedIn, isAdmin, upload.single("image"), async func
 });
 
 // Images End **********************************************************
+
+
+
+
+
+// ************************ Admin Subscriptions
+
+
+router.get('/adminsubscriptions', isLoggedIn, isAdmin, function(req, res) {
+  let sql = 'SELECT COUNT(*) as total FROM subscriptions ';
+  db.query(sql,(err, countResult) => {
+    if (err) throw err;
+    const totalCount = countResult[0].total;
+    const offset = req.query.offset || 0;
+    const numRowsPerPage = 2;
+
+    // Calculate the total number of pages
+    const numPages = Math.ceil(totalCount / numRowsPerPage);
+
+
+
+    const currentRoute = req.url;
+    let sql = 'SELECT * FROM subscriptions LIMIT ? OFFSET ? ; ';
+    let query = db.query(sql, [numRowsPerPage, parseInt(offset)], (err, result) => {
+      if (err) {
+        // Handle errors
+        console.log(err)
+        //res.redirect("/error");
+      } else {
+        // Send the messages data as JSON
+        res.render("adminsubscriptions", {result, user: req.user, currentRoute, 
+          totalRows: totalCount,
+          numRowsPerPage: numRowsPerPage,
+          currentPage: (offset / numRowsPerPage) + 1,
+          numPages: numPages // Pass the number of pages to your template
+        
+        });
+        
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+  });
+
+
+
+
+
+});
 
   module.exports = router;

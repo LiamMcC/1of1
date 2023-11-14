@@ -149,9 +149,9 @@ module.exports = class Email {
     var mailOptions = {
       from: 'me@liammccabe.ie', // this is your websites email address
       replyTo: 'me@liammccabe.ie', // set this to an email you will see if the user needs to reply to a reset password email
-      to: xxemail,
-      subject: 'An order has been placed',
-      text: "An order has been placed and this email needs to be customised to send to the customer"
+      to: 'me@liammccabe.ie',
+      subject: 'Subscription Updated',
+      text: "You have just sucessfully updated your subscription on 1 OF 1.ie. You are fuly paid up for another 12 months now. Thank you "
 	  };
     
     

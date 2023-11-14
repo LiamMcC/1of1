@@ -11,7 +11,14 @@ router.use(require('./user'))
 // var Email = require("../coms/email.js");
 
 
-
+function checkMembershipStatus(req, res, next) {
+  // && new Date() <= req.user.membership_expiry_date
+   if (req.user.membership_status === 'Active' ) {
+     next(); // User has an active membership.
+   } else {
+     res.redirect('/1of1info/Membership');
+   }
+ }
 
 // function to render the home page
 router.get('/',  function(req, res){

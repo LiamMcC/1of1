@@ -1,1 +1,74 @@
-All User Data Will Be Here
+<%- include('../partials/header') -%>
+
+
+<!-- Main -->
+<section class="wrapper style1">
+    <div class="container">
+        <div id="content">
+
+            <!-- Content -->
+
+                <article>
+                    <header>
+                        <h2>Admin Area, Welcome <%= user.userName %></h2>
+                        <p>Remember To Log Out</p>
+                    </header>
+
+                    
+
+                    <h3>Registered USers</h3>
+
+                    <table>
+                        <tr>
+                          <th>Id</th>
+                          <th>Title</th>
+                          <th>Status</th>
+                          <th>Membership</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                         
+                         
+                        </tr>
+                        <% result.forEach(function(iContent) { %>
+                        <tr>
+                          <td><%= iContent.Id %></td>
+                          <td><%= iContent.userName %></td>
+                          <td><%= iContent.role %></td>
+                          <td><%= iContent.membership_status %></td>
+                          <td><a href="/adminedituser/<%= iContent.Id %>" >Go!</a></td>
+                          <td><a href="/admindeleteuser/<%= iContent.Id %>" data-confirm="true">Delete!</a></td>
+
+                         
+                        </tr>
+                        <% }); %>
+                       
+                  
+                      </table>
+
+                      <a href="/adminaddblog" >Write A New Blog Article</a>
+                </article>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function() {
+      // Attach a click event handler to the "Delete" links
+      $('a[data-confirm]').on('click', function(e) {
+        // Prevent the default link action
+        e.preventDefault();
+  
+        // Get the URL from the link's href attribute
+        var url = $(this).attr('href');
+  
+        // Display a confirmation dialog
+        if (confirm('Are you sure you want to delete this user?')) {
+          // If the user confirms, redirect to the delete URL
+          window.location.href = url;
+        }
+      });
+    });
+  </script>
+
+<%- include('../partials/footer') -%>

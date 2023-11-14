@@ -29,6 +29,8 @@ const storage = multer.diskStorage({
 
 
 router.use(flash()); // use connect-flash for flash messages stored in session
+
+
 function isLoggedIn(req, res, next) {
 
 	// if user is authenticated in the session, carry on
@@ -39,6 +41,16 @@ function isLoggedIn(req, res, next) {
 	// if they aren't redirect them to the home page
 	res.redirect('/login');
 }
+
+
+function checkMembershipStatus(req, res, next) {
+  // && new Date() <= req.user.membership_expiry_date
+   if (req.user.membership_status === 'Active' ) {
+     next(); // User has an active membership.
+   } else {
+     res.redirect('/1of1info/Membership');
+   }
+ }
 
 
 router.get('/marketplace',  function(req, res){

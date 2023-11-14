@@ -25,10 +25,15 @@
 											<h3>Subscription</h3>
 											<ul class="links">
 												<li>Membership Status: <%= user.membership_status %></li>
-												
+												<li><a href="/pastsubscriptions" ><b>Past Payments</b></a></li>
 											</ul>
 											<footer>
-												<a href="#" class="button">Renew</a>
+
+												<form action="/paynow/<%= user.Id %>" method="post">
+													
+													<input type="submit" class="button" value="Renew Now" />
+												</from>
+												
 											</footer>
 										</section>
 

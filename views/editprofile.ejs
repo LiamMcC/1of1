@@ -29,23 +29,23 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Summary About You</P>
-                                                                <textarea name="summary" id="message" rows="5"><% if (user.summary) { %><%= user.summary %><% } else { %>Please enter a short descriptave piece of information so that people at a glance can see what you are all about!<% } %></textarea>
+                                                                <textarea name="summary" id="message" rows="5"><% if (user.summary) { %><%= user.summary %><% } else { %>This User Has Not Identified A Summary Of Their Profile Yet!<% } %></textarea>
                                                             </div>
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Detailed Information About You</P>
-                                                                <textarea name="allAbout" id="message" rows="5"><% if (user.allAbout) { %><%= user.allAbout %><% } else { %>Please enter some information about you here!<% } %></textarea>
+                                                                <textarea name="allAbout" id="message" rows="5"><% if (user.allAbout) { %><%= user.allAbout %><% } else { %>This User Has Not Identified Any Details About Themself Yet!<% } %></textarea>
 
                                                                 
                                                             </div>
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Write A Bit About Your Interests</P>
-                                                                <textarea name="interests" id="message" rows="5"><% if (result[0] && result[0].interests) { %><%= result[0].interests %><% } else { %>Please enter your interests here!<% } %></textarea>
+                                                                <textarea name="interests" id="message" rows="5"><% if (result[0] && result[0].interests) { %><%= result[0].interests %><% } else { %>This User Has Not Identified Any Interests Yet!<% } %></textarea>
                                                                 
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">If you have more to add about you please do so here!</P>
-                                                                <textarea name="aboutme" id="message" rows="5"><% if (result[0] && result[0].aboutMe) { %><%= result[0].aboutMe %><% } else { %>Please enter your interests here!<% } %></textarea>
+                                                                <textarea name="aboutme" id="message" rows="5"><% if (result[0] && result[0].aboutMe) { %><%= result[0].aboutMe %><% } else { %>This User Has Not Identified Any Additional Information Yet!<% } %></textarea>
                                                                 
                                                             </div>
 

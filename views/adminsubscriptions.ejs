@@ -1,0 +1,67 @@
+<%- include('../partials/header') -%>
+
+
+
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+
+                    <div class="col-12  col-12-narrower imp-narrower">
+                        <div id="content">
+
+                            <!-- Content -->
+<h2>Past Payments Por All Users.</h2>
+<p>This is an admin only area so do not forget to log out <%= user.userName %>.</p>
+<p><a href="/administration">&LeftArrow; Back To Admin</a></p>
+                                <article>
+
+                                    <header>
+                                        <% if (!result || result.length === 0) { %>
+                                            <h2>You Have no paid subscriptions to date.</h2>
+                                          <% } else { %>
+                                            <% result.forEach(function(myInvents) { %>
+                                                <h3>Paid: &euro;<%= myInvents.amt %></h3>
+                                                <p>Order Number: <%= myInvents.sub_id %></p>
+                                                <p>Date Paid: <%= myInvents.date_paid %></p>
+                                                
+                                        
+                                            <% }); %>
+                                          <% } %>
+
+
+                                       
+                                        
+                                    </header>
+
+                                    
+                                                                  </article>
+
+                                                                  <div class="pagination-container">
+                                                                    <ul class="pagination">
+                                                                      <% var numPages = Math.ceil(totalRows / numRowsPerPage); %>
+                                                                      <% for (var i = 1; i <= numPages; i++) { %>
+                                                                      <% var offset = (i - 1) * numRowsPerPage; %>
+                                                                      <a style="border-bottom: none;" href="/adminsubscriptions?offset=<%= offset %>">
+                                                                      <li class="page-item <% if (currentPage === i) { %>active<% } %>" >
+                                                                        <%= i %>
+                                                                      </li>
+                                                                      <% } %>
+                                                                    </ul>
+                                                                  </div>
+
+                             
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>
+
+
+
+

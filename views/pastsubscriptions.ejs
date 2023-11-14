@@ -1,0 +1,54 @@
+<%- include('../partials/header') -%>
+
+
+
+
+
+		<!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+
+                    <div class="col-12  col-12-narrower imp-narrower">
+                        <div id="content">
+
+                            <!-- Content -->
+<h2>Past Payments <%= user.userName %></h2>
+<p>This is a list of your past payments. We appreciate your membership and value you as a user so thank you for this and your continued participation.</p>
+<p><a href="/profile">&LeftArrow; Back To Profile</a></p>
+                                <article>
+
+                                    <header>
+                                        <% if (!result || result.length === 0) { %>
+                                            <h2>You Have no paid subscriptions to date.</h2>
+                                          <% } else { %>
+                                            <% result.forEach(function(myInvents) { %>
+                                                <h3>Paid: &euro;<%= myInvents.amt %></h3>
+                                                <p>Order Number: <%= myInvents.sub_id %></p>
+                                                <p>Date Paid: <%= myInvents.date_paid %></p>
+                                                
+                                        
+                                            <% }); %>
+                                          <% } %>
+
+
+                                       
+                                        
+                                    </header>
+
+                                    
+                                                                  </article>
+
+                             
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../partials/footer') -%>
+
+
+
+

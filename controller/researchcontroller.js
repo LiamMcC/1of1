@@ -10,7 +10,14 @@ router.use(require('./user'))
 
 
 
-
+function checkMembershipStatus(req, res, next) {
+  // && new Date() <= req.user.membership_expiry_date
+   if (req.user.membership_status === 'Active' ) {
+     next(); // User has an active membership.
+   } else {
+     res.redirect('/1of1info/Membership');
+   }
+ }
 
 
 router.get('/research',  function(req, res){
