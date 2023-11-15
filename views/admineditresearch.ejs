@@ -13,7 +13,7 @@
         
                                                 <article>
                                                     <header>
-                                                        <h2>Create A New Blog Article</h2>
+                                                        <h2>Edit Research Here</h2>
                                                         <p><a href="/administration">&LeftArrow; Back To Admin</a></p>
                                                         
                                                         <% if (message) { %>
@@ -24,12 +24,12 @@
                                                    
                                                     </header>
         
-                                                    <form action="/adminaddblog" enctype="multipart/form-data" method="post">
+                                                    <form action="/admineditthisresearch/<%= result[0][0].Id %>" enctype="multipart/form-data" method="post">
                                                         <div class="row gtr-50">
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Title</P>
-                                                                <input name="title" type="text"  >
+                                                                <input name="title" type="text" value="<%= result[0][0].title %>" >
                                                                 
                                                                 
                                                             </div>
@@ -37,11 +37,12 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Icon</P>
-                                                                <input name="icon" type="text"  >
+                                                                <input name="icon" type="text" value="<%= result[0][0].icon %>" >
                                                             </div>
 
                                                             
                                                             <div class="col-12 col-12-mobilep">
+                                                                <img src="../<%= result[0][0].image %>" alt="<%= result[0][0].image %>" style="width:230px;"/>
                                                                 <P style="margin-bottom: 0px;">Image</P>
                                                                 <label style="display: inline-block; background-color: #0077FF; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                                                                     <span id="file-name-label">Choose an Image</span>
@@ -55,7 +56,7 @@
                                                                 const fileNameLabel = document.getElementById('file-name-label');
                                                                 
                                                                 if (fileInput.files.length > 0) {
-                                                                    fileNameLabel.textContent = fileInput.files[0].name;
+                                                                    fileNameLabel.textContent = fileInput.files[0][0].name;
                                                                 } else {
                                                                     fileNameLabel.textContent = 'Choose an Image';
                                                                 }
@@ -65,38 +66,40 @@
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Image Title</P>
-                                                                <input name="imagetitle" type="text" >
+                                                                <input name="imagetitle" type="text" value="<%= result[0][0].imageTitle %>">
                                                                 
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Small Title</P>
-                                                                <input name="smallbit" type="text"  >
+                                                                <input name="smallbit" type="text"  value="<%= result[0][0].smallBit %>">
                                                                 
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Author</P>
-                                                                <input name="author" type="text"  id="name">
+                                                                <input name="author" type="text"  id="name" value="<%= result[0][0].author %>">
                                                             </div>
-
-                                                            <div class="col-12">
-                                                                <P style="margin-bottom: 0px;">Content</P>
-                                                                <textarea name="description" rows="18"  id="message"></textarea>
-                                                            </div>
-
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Category</P>
-                                                                <label>Role</label>
+                                                               
                                                                 <select name="category" class="form-control">
-                                                                  <option value="Inventor" <% if (user.role === "Inventor") { %>selected<% } %>>Creator (Have an idea to put before Investors)</option>
-                                                                  <option value="Investor" <% if (user.role === "Investor") { %>selected<% } %>>Investor (Looking for Ideas TO Buy)</option>
+                                                                <% result[1].forEach(function(iCategory) { %>
+                                                                  <option value="<%= iCategory.title %>" <% if (user.role === "Inventor") { %>selected<% } %>><%= iCategory.title %></option>
+                                                                 
+                                                                  <% }); %>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <P style="margin-bottom: 0px;">Content</P>
+                                                                <textarea name="description" rows="18"  id="message"><%= result[0][0].description %></textarea>
+                                                            </div>
+
                                                           
 
                                                             <div class="col-12">
                                                                 <ul class="actions">
-                                                                  <li><input type="submit" class="button" value="Create Invention" /></li>
+                                                                  <li><input type="submit" class="button" value="Edit This Research Post" /></li>
                                                                 </ul>
                                                               </div>
                                                               

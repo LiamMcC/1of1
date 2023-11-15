@@ -17,12 +17,13 @@
 
                     
 
-                    <h3>Here are your options for blogs</h3>
+                    <h3>Here are your research options</h3>
 
                     <table>
                         <tr>
                           <th>Id</th>
                           <th>Title</th>
+                          <th>Author</th>
                           <th>Edit</th>
                           <th>Delete</th>
                          
@@ -31,9 +32,10 @@
                         <% result.forEach(function(iContent) { %>
                         <tr>
                           <td><%= iContent.Id %></td>
-                          <td><%= iContent.Title %></td>
-                          <td><a href="/admineditblog/<%= iContent.Id %>" >Go!</a></td>
-                          <td><a href="/admindeletthisblog/<%= iContent.Id %>" data-confirm="true">Delete!</a></td>
+                          <td><%= iContent.title %></td>
+                          <td><%= iContent.author %></td>
+                          <td><a href="/admineditresearch/<%= iContent.Id %>" >Go!</a></td>
+                          <td><a href="/admindeletthisresearch/<%= iContent.Id %>" data-confirm="true">Delete!</a></td>
 
                          
                         </tr>
@@ -42,7 +44,7 @@
                   
                       </table>
 
-                      <a href="/adminaddblog" >Write A New Blog Article</a>
+                      <a href="/adminaddresearch" >Write A New Research Topic</a>
                 </article>
 
         </div>
@@ -60,7 +62,7 @@
         var url = $(this).attr('href');
   
         // Display a confirmation dialog
-        if (confirm('Are you sure you want to delete this blog post?')) {
+        if (confirm('Are you sure you want to delete this researcharticle?')) {
           // If the user confirms, redirect to the delete URL
           window.location.href = url;
         }

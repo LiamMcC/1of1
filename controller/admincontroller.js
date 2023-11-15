@@ -27,6 +27,8 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
+
+
  
 var upload = multer({ storage: storage })
 
@@ -83,7 +85,7 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
 
       // ************** Admin Update Site Content Post Request
   
-      router.post('/admineditcontent/:id', isLoggedIn, function(req, res, next) {
+      router.post('/admineditcontent/:id', isLoggedIn, isAdmin, function(req, res, next) {
         // Check for blank fields
         if (
           !req.body.title ||
@@ -131,6 +133,130 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
 
 
 
+// ****************** Admin Inventions
+
+
+
+router.get('/admineditinvention/:id', isLoggedIn, isAdmin, function (req, res) {
+  const currentRoute = req.url; // or any logic to determine the current route
+  let sql = 'SELECT * FROM inventItems WHERE item_id = ?;';
+    
+  
+  let query = db.query(sql, [req.params.id, req.user.userName], (err, result) => {
+    const successMessage = req.flash('missingBit');
+    // var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
+    var title = "1 Of 1 Researching Ideas & Connecting Investors";
+    var description = "Connecting Inventors with Investors";
+
+    res.render('admineditinvention', {
+      result,
+      title,
+      description,
+      currentRoute,
+      user: req.user,
+      flash: req.flash(),
+      message: successMessage
+    });
+ 
+});
+});
+  
+  
+ 
+  
+
+router.post('/admineditinvention/:id', isLoggedIn, isAdmin, upload.single('image'), async function (req, res, next) {
+  let sqlCheckOwnership = 'SELECT adminRights FROM users WHERE Id = ?';
+  db.query(sqlCheckOwnership, [req.user.Id], (err, result) => {
+    if (err) throw err;
+
+    if (result[0].adminRights === 1) {
+      // Check for blank fields
+      if (
+        !req.body.title ||
+        !req.body.heading1 ||
+        !req.body.paragraph1 ||
+        !req.body.heading2 ||
+        !req.body.paragraph2 ||
+        !req.body.mainfeature1 ||
+        !req.body.mainfeature2 ||
+        !req.body.mainfeature3 ||
+        !req.body.mainfeature4 ||
+        !req.body.mainfeature5 ||
+        !req.body.valuedat
+      ) {
+        // Flash a message indicating that a field is blank
+        req.flash('missingBit', 'All Fields here must be filled in');
+        res.redirect(req.originalUrl);
+        return; // Stop further execution
+      }
+
+      // Get the existing image from the database
+      let image = result[0].image;
+
+      if (req.file) {
+        // If a new image is uploaded, process and replace the existing image
+        const { filename } = req.file;
+
+        // Process and replace the existing image
+        sharp(req.file.path)
+          .resize(500, 500)
+          .jpeg({ quality: 90 })
+          .toFile(path.resolve(req.file.destination, 'resized', filename))
+          .then(() => {
+            fs.unlinkSync(req.file.path);
+
+            // Update the image variable to the new filename
+            image = filename;
+
+            // Continue with the update
+            updateInvention(image);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.redirect('/error'); // Handle the error as needed
+          });
+      } else {
+        // No new image uploaded; use the existing image filename
+        updateInvention(image);
+      }
+    } else {
+      // The logged-in user does not own the invention; deny access
+      res.redirect('/deniedpermission');
+    }
+  });
+
+  // Function to update the invention with the provided image
+  function updateInvention(image) {
+    let sql =
+      'update inventItems set title = ?, heading1 = ?, paragraph1 = ?, heading2 = ?, paragraph2 = ?, main_feature1 = ?, main_feature2 = ?, main_feature3 = ?, main_feature4 = ?, main_feature5 = ?, image = ?, valuedAt = ? WHERE item_id = ?';
+
+    db.query(
+      sql,
+      [
+        req.body.title,
+        req.body.heading1,
+        req.body.paragraph1,
+        req.body.heading2,
+        req.body.paragraph2,
+        req.body.mainfeature1,
+        req.body.mainfeature2,
+        req.body.mainfeature3,
+        req.body.mainfeature4,
+        req.body.mainfeature5,
+        image, // Use the image variable
+        req.body.valuedat,
+        req.params.id
+      ],
+      (err, result) => {
+        if (err) throw err;
+        res.redirect('/admininventions');
+      }
+    );
+  }
+});
+
+
 
 
 
@@ -153,6 +279,7 @@ router.get('/admininventions',  function(req, res){
  
   });
 
+  // ************ End Admin Inventions
 
 
 // Users Start **********************************************************
@@ -267,13 +394,7 @@ router.post('/editprofile/:id', isLoggedIn, isAdmin, function(req, res, next) {
 // Users End **********************************************************
 
 
-// Admin Inventions Start *******************************************
 
-
-
-
-
-// Admin Inventions End *******************************************
 
 
 // About Start **********************************************************
@@ -417,18 +538,7 @@ router.get('/adminsubscriptions', isLoggedIn, isAdmin, function(req, res) {
     });
 
 
-
-
-
-
-
-
-
-
   });
-
-
-
 
 
 });
