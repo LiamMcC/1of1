@@ -11,6 +11,7 @@ router.use(bodyParser.urlencoded({extended:true}));
 var flash    = require('connect-flash');
 
 var db = require('../db');
+const Email = require('../coms/email');
 router.use(require('./user'))
 // var Email = require("../coms/email.js");
 router.use(flash()); // use connect-flash for flash messages stored in session
@@ -59,7 +60,7 @@ router.get('/marketplace',  function(req, res){
   let sql = 'SELECT item_id, title, heading1, valuedAt, investType, image FROM inventItems ORDER By item_id DESC' ;
   let query = db.query(sql,[req.params.id], (err, result) => {  
     
-      if(err) throw err;  
+      
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "The marketplace where your can find an investment or and investor"
@@ -71,16 +72,16 @@ router.get('/marketplace',  function(req, res){
   });
 
 // function to render the individual invention page
-router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
+router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function(req, res){
   const currentRoute = req.url; // or any logic to determine the current route
   
   let sql = 'SELECT * FROM inventItems WHERE item_id = ?' ;
   let query = db.query(sql,[req.params.id], (err, result) => {  
     
-      if(err) throw err;  
+      
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
-      var description = "Happy Kids Pre School is a fully outdoor pre-schooll in Dean Hill Navan co. Meath. We have fully qualified staff and pride ourselves on our facilities"
+      var description = "Research Is Key Visit 1 of 1"
       
       res.render('invention', {result, title, description, currentRoute,user: req.user});    
       });  
@@ -99,7 +100,7 @@ router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
     
     // Check if the item with the given ID exists and was created by the current user
     let query = db.query(sql, [req.params.id, req.user.userName], (err, result) => {
-      if (err) throw err;
+      
       
       if (result.length === 0) {
         // If no matching item is found, or it wasn't created by the user, do not render content
@@ -128,9 +129,19 @@ router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
     
 
   router.post('/editinvention/:id', isLoggedIn, upload.single('image'), async function (req, res, next) {
+    const {title, heading1, paragraph1, heading2, paragraph2, mainfeature1, mainfeature2, mainfeature3, mainfeature4, mainfeature5 } = req.body;
+    const fieldsToCheck = [title, heading1, paragraph1, heading2, paragraph2, mainfeature1, mainfeature2, mainfeature3, mainfeature4, mainfeature5 ];
+    
+    if (fieldsToCheck.some(field => field.includes('<'))) {
+      res.redirect('/careful');
+    } else {
+    
+    
+    
+    
     let sqlCheckOwnership = 'SELECT createdBy, image FROM inventItems WHERE item_id = ?';
     db.query(sqlCheckOwnership, [req.params.id], (err, result) => {
-      if (err) throw err;
+      
   
       if (result.length === 1 && result[0].createdBy === req.user.userName) {
         // Check for blank fields
@@ -211,15 +222,20 @@ router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
           req.params.id
         ],
         (err, result) => {
-          if (err) throw err;
+        
           res.redirect('/profile');
         }
       );
     }
+
+    }
   });
   
 
-    router.get('/createinvention', isLoggedIn, function(req, res){
+    router.get('/createinvention', isLoggedIn, checkMembershipStatus, function(req, res){
+
+
+      
       const currentRoute = req.url; // or any logic to determine the current route
       const successMessage = req.flash('missingBit');
           var title = "1 Of 1 Researching Ideas & Connecting Investors" 
@@ -234,7 +250,17 @@ router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
 
 
 
-      router.post('/createinvention', isLoggedIn, upload.single('image'), async function(req, res, next) {
+      router.post('/createinvention', isLoggedIn, checkMembershipStatus, upload.single('image'), async function(req, res, next) {
+        const {title, heading1, paragraph1, heading2, paragraph2, mainfeature1, mainfeature2, mainfeature3, mainfeature4, mainfeature5,
+          image } = req.body;
+        const fieldsToCheck = [title, heading1, paragraph1, heading2, paragraph2, mainfeature1, mainfeature2, mainfeature3, mainfeature4, mainfeature5,
+          image];
+        
+        if (fieldsToCheck.some(field => field.includes('<'))) {
+          res.redirect('/careful');
+        } else {
+        
+        
         // Check for blank fields
         if (
           !req.body.title ||
@@ -291,13 +317,39 @@ router.get('/marketplace/:name/:id', isLoggedIn, function(req, res){
             req.body.valuedat
           ],
           (err, result) => {
-            if (err) throw err;
+            
             res.redirect('/profile');
           }
         );
+        }
       });
       
  
+
+
+      router.post('/submitoffer/:id/:whatid/:whatName', isLoggedIn, checkMembershipStatus, function(req, res) {
+
+        const { offer } = req.body;
+        const fieldsToCheck = [offer];
+        
+        if (fieldsToCheck.some(field => field.includes('<'))) {
+          res.redirect('/careful');
+        } else {
+            const successMessage = req.flash('messagesent', "Thank you for sending the message");
+            const currentRoute = req.url;
+            const currentTimestamp = new Date();
+            let sql = 'INSERT INTO Messages (message_subject, sender_id, receiver_id, timestamp) VALUES (?,?,?,?);';
+            sql += 'INSERT INTO MessageThreads (message_id, sender_id, receiver_id, message_text, timestamp, sender_name) VALUES (LAST_INSERT_ID(),?,?,?,?,?);';
+            sql += 'INSERT INTO offers (offerfrom, offerTo, offerValue, inventId) VALUES (?, ?, ?, ?)'
+            let query = db.query(sql, ["Offer On Invention" , req.user.Id, req.params.id, currentTimestamp, req.user.Id, req.params.id, "I am interested in your invention " + req.params.whatName + " and would like to submit a provisional offer of " + req.body.offer, currentTimestamp, req.user.userName,  req.user.userName, req.params.id, req.body.offer, req.params.whatid ], (err, result) => {    
+         
+                    Email.offerSubmitted(req.user.uemail)
+
+                    res.redirect('/profile');    
+                    });  
+    
+                  }
+        });
 
 
   module.exports = router;

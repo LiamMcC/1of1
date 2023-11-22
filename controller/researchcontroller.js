@@ -61,7 +61,7 @@ router.get('/research',  function(req, res){
   let sql = 'SELECT * FROM research ORDER BY RAND() LIMIT 8 ; SELECT * FROM category';
 let query = db.query(sql, (err, result) => {  
   
-    if(err) throw err;  
+    
     //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
     var title = "1 Of 1 Researching Ideas & Connecting Investors" 
     var description = "Description Goes Here"
@@ -81,7 +81,7 @@ router.get('/research/:cat',  function(req, res){
     let sql = 'SELECT * FROM research WHERE category = ? ORDER BY Id DESC; SELECT * FROM category';
   let query = db.query(sql,[req.params.cat], (err, result) => {  
     
-      if(err) throw err;  
+      
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "Description Goes Here"
@@ -95,14 +95,14 @@ router.get('/research/:cat',  function(req, res){
 
 
 
-  router.get('/research/:title/:id',  function(req, res){
+  router.get('/research/:title/:id', isLoggedIn, checkMembershipStatus,  function(req, res){
     const currentRoute = req.url;
     const researchRoute = req.url;
     
     let sql = 'SELECT * FROM research WHERE Id = ? ; SELECT * FROM category';
   let query = db.query(sql,[req.params.id], (err, result) => {  
     
-      if(err) throw err;  
+       
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "Description Goes Here"
@@ -125,7 +125,7 @@ router.get('/research/:cat',  function(req, res){
   
     let sql = 'select * from research';
     let query = db.query(sql, (err,result) => { 
-        if(err) throw err;
+        
        
         res.render('adminresearch', {result, user: req.user, currentRoute});
         });
@@ -139,7 +139,7 @@ router.get('/research/:cat',  function(req, res){
     const currentRoute = req.url;
     let sql = 'SELECT * FROM category';
     let query = db.query(sql, (err,result) => { 
-      if(err) throw err;
+      
      
       res.render('adminaddresearch', {result, user: req.user, currentRoute, message: successMessage});
       });
@@ -165,7 +165,7 @@ router.get('/research/:cat',  function(req, res){
       let sql = 'INSERT INTO research (Title, Icon, Description, Image, ImageTitle, SmallBit, author, dateWritten) VALUES (?,?,?,?,?,?,?, ?)';
       let query = db.query(sql, [req.body.title, req.body.icon, newpeewe, req.file.filename, req.body.imagetitle, req.body.smallbit, req.body.author, today],(err,res) => {
           
-          if(err) throw err;
+         
    
       });
       
@@ -179,7 +179,7 @@ router.get('/research/:cat',  function(req, res){
       let sql = 'INSERT INTO research (Title, Icon, Description, ImageTitle, SmallBit, author, dateWritten) VALUES (?,?,?,?,?,?, ?)';
       let query = db.query(sql, [req.body.title, req.body.icon, newpeewe, req.body.imagetitle, req.body.smallbit, req.body.author, today],(err,res) => {
           
-          if(err) throw err;
+         
    
       });
       
@@ -199,7 +199,7 @@ router.get('/research/:cat',  function(req, res){
   
       let sql = 'select * from research where Id = ?; select * from category;';
       let query = db.query(sql,[req.params.id], (err,result) => {       
-          if(err) throw err;    
+              
           res.render('admineditresearch', {result, user: req.user, currentRoute, message: successMessage});        
       });
     });
@@ -226,7 +226,7 @@ router.get('/research/:cat',  function(req, res){
       const queryParams = [title, category, icon, newDescription, newImage || image, imagetitle, smallbit, req.body.author, req.params.id];
     
       db.query(sql, queryParams, (err, result) => {
-        if (err) throw err;
+      
         res.redirect('/adminresearch');
       });
     });
@@ -237,7 +237,7 @@ router.get('/research/:cat',  function(req, res){
       let sql = 'DELETE FROM research WHERE Id = ?';
       let query = db.query(sql, [req.params.id],(err,res) => {
           
-          if(err) throw err;
+        
         
       });
       
@@ -253,7 +253,7 @@ router.get('/research/:cat',  function(req, res){
       const currentRoute = req.url;
       let sql = 'SELECT * FROM category';
       let query = db.query(sql, (err,result) => { 
-        if(err) throw err;
+        
        
         res.render('admincategories', {result, user: req.user, currentRoute, message: successMessage});
         });
@@ -267,7 +267,7 @@ router.get('/research/:cat',  function(req, res){
         const currentRoute = req.url;
         let sql = 'INSERT INTO category (cat_blurb, title) VALUES (?,?)';
         let query = db.query(sql, [req.body.catblurb, req.body.title], (err,result) => { 
-          if(err) throw err;
+          
          
           res.redirect('/admincategories');
           });
@@ -282,7 +282,7 @@ router.get('/research/:cat',  function(req, res){
           const currentRoute = req.url;
           let sql = 'SELECT * FROM category WHERE cat_id = ?';
           let query = db.query(sql, [req.params.id], (err,result) => { 
-            if(err) throw err;
+          
            
             res.render('admineditcategory', {result, user: req.user, currentRoute, message: successMessage});
             });
@@ -298,7 +298,7 @@ router.get('/research/:cat',  function(req, res){
             
             let sql = 'UPDATE category SET cat_blurb = ?,  title = ? where cat_id = ?';
             let query = db.query(sql, [req.body.catblurb, req.body.title, req.params.id], (err,result) => { 
-              if(err) throw err;
+           
              
               res.redirect('/admincategories');
               });
@@ -312,7 +312,7 @@ router.get('/research/:cat',  function(req, res){
               let sql = 'DELETE FROM category WHERE cat_id = ?';
               let query = db.query(sql, [req.params.id],(err,res) => {
                   
-                  if(err) throw err;
+                 
                 
               });
               

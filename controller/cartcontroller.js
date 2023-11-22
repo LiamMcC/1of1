@@ -8,6 +8,7 @@ router.use(require('./user'))
 var flash    = require('connect-flash');
 var Email = require("../coms/email.js");
 const stripe = require('stripe')(process.env.STRIPE_KEY);
+require('dotenv').config();
 
 function isLoggedIn(req, res, next) {
 
@@ -27,7 +28,7 @@ function isLoggedIn(req, res, next) {
 
 router.post('/paynow/:id', async (req, res) => {
    
-    let grandtotal = 99
+    let grandtotal = process.env.SUB_COST
       
     const session = await stripe.checkout.sessions.create({
   

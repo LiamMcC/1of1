@@ -26,7 +26,7 @@ router.get('/',  function(req, res){
   let sql = 'SELECT * FROM webContent WHERE home_Show = ? LIMIT 3 ;SELECT * FROM inventItems LIMIT 4;';
   let query = db.query(sql,[1], (err, result) => {  
     
-      if(err) throw err;  
+       
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "Description Goes Here"
@@ -44,7 +44,7 @@ router.get('/',  function(req, res){
     let sql = 'SELECT * FROM webContent WHERE location = ? LIMIT 1;';
   let query = db.query(sql,[req.params.location], (err, result) => {  
     
-      if(err) throw err;  
+      
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "Description Goes Here"
@@ -64,7 +64,7 @@ router.get('/investors', function (req, res) {
   const currentRoute = req.url; // or any logic to determine the current route
   let sql = 'SELECT COUNT(*) as total FROM users WHERE role = ? && public_show = ?';
   db.query(sql, ["Investor", 1], (err, countResult) => {
-    if (err) throw err;
+    
     const totalCount = countResult[0].total;
     const offset = req.query.offset || 0;
     const numRowsPerPage = 10;
@@ -75,7 +75,7 @@ router.get('/investors', function (req, res) {
     // Fetch the actual data for the current page
     sql = 'SELECT * FROM users WHERE role = ? && public_show = ? LIMIT ? OFFSET ?';
     db.query(sql, ["Investor", 1, numRowsPerPage, parseInt(offset)], (err, result) => {
-      if (err) throw err;
+      
 
       const title = "1 Of 1 Researching Ideas & Connecting Investors";
       const description = "Description Goes Here";
@@ -103,7 +103,7 @@ router.get('/investor/:userName',  function(req, res){
   let sql = 'SELECT * FROM users WHERE userName = ? ;';
 let query = db.query(sql,[req.params.userName], (err, result) => {  
   
-    if(err) throw err;  
+    
     //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
     var title = "1 Of 1 Researching Ideas & Connecting Investors" 
     var description = "Description Goes Here"
@@ -135,7 +135,7 @@ router.get('/contact', function(req, res, err){
           if (!req.body.fullname || !req.body.email || !req.body.comment) {
             res.redirect('/missingdata')
           } else {
-            Email.contactMailForm(req.body.fullname, req.body.email, req.body.comment, req.body.verifybox)
+            Email.contactMailForm(req.body.fullname, req.body.email, req.body.comment)
             res.redirect('/thankyou')
           }
 
@@ -179,6 +179,21 @@ router.get('/contact', function(req, res, err){
 
 // ****************** Error Route 
 
+router.get('/servererror', function(req, res){
+  //let grandItems = 0
+  const currentRoute = req.url;
+
+  let sql = 'SELECT * FROM webContent WHERE location ="Error"';
+  let query = db.query(sql, (err,result) => {
+    if(err) {
+      res.redirect('/error'); // Redirect to error page
+    } else { 
+      res.render('servererror', {result, user: req.user, currentRoute});
+    }
+  });
+});
+
+
 router.get('/error', function(req, res){
   //let grandItems = 0
   const currentRoute = req.url;
@@ -192,6 +207,20 @@ router.get('/error', function(req, res){
     }
   });
 });
+
+
+router.get('/careful', function(req, res){
+  //let grandItems = 0
+  const currentRoute = req.url;
+
+  let sql = 'SELECT * FROM webContent WHERE location ="Careful"';
+  let query = db.query(sql, (err,result) => {
+    
+      res.render('careful', {result, user: req.user, currentRoute});
+    });
+});
+
+
 
 
 // ****************** Error Route 

@@ -15,11 +15,11 @@
                                 <section>
                                     <h3>Main Features Include</h3>
                                     <ol class="links">
-                                        <li><%= result[0].main_feature1 %></li>
-                                        <li><%= result[0].main_feature2 %></li>
-                                        <li><%= result[0].main_feature3 %></li>
-                                        <li><%= result[0].main_feature2 %></li>
-                                        <li><%= result[0].main_feature5 %></li>
+                                        <li><%= result[0]?.main_feature1 ?? 'Feature not available' %></li>
+                                        <li><%= result[0]?.main_feature2 ?? 'Feature not available'  %></li>
+                                        <li><%= result[0]?.main_feature3 ?? 'Feature not available'  %></li>
+                                        <li><%= result[0]?.main_feature2 ?? 'Feature not available'  %></li>
+                                        <li><%= result[0]?.main_feature5 ?? 'Feature not available'  %></li>
 
                                     </ol>
                                   
@@ -56,13 +56,13 @@
 
                                 <section>
                                     <h3>Make Offer</h3>
-                                    <P>This item is available for <%= result[0].investType %>. The owner of this invention is looking for offers in the region of</P>
+                                    <P>This item is available for <%= result[0]?.investType ?? 'Typenot available'  %>. The owner of this invention is looking for offers in the region of</P>
                                        <p>&euro;<%= result[0].valuedAt %></p>
                                        
                                     
                                     <footer>
 
-                                        <form action="/login" method="post">
+                                        <form action="/submitoffer/<%= result[0].creator_id %>/<%= result[0].item_id %>/<%= result[0].title %>" method="post">
                                             <div class="row gtr-50">
                                                 <div class="col-12 col-12-mobilep">
                                                     <input type="text" name="offer" id="name" placeholder="Make an offer" />
@@ -90,9 +90,11 @@
                                     <header>
                                         <h2><%= result[0].title %></h2>
                                         <p>Created By: <a href="/publicprofile/<%= result[0].createdBy %>/<%= result[0].creator_id %>"><%= result[0].createdBy %></a></p>
+                                        <h2><%= result[0].heading1 %></h2>
+                                        
                                     </header>
 
-                                    <span class="image featured"><img src="/banner.jpg" alt="" /></span>
+                                    <span class="image featured"><img src="/resized/<%= result[0].image %>" alt="" /></span>
 
                                     <p><%= result[0].paragraph1 %></p>
 

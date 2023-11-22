@@ -65,7 +65,7 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
     const currentRoute = req.url;
     let sql = 'select * from webContent ORDER BY location ASC';
   let query = db.query(sql,[req.params.id], (err,result) => {       
-      if(err) throw err;    
+        
       const errorMessage = req.flash('error');
       res.render('adminsitecontent', {result, user: req.user, currentRoute, errorMessage});        
   });
@@ -77,7 +77,7 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
       const currentRoute = req.url;
       let sql = 'select * from webContent where webContent_id = ?';
     let query = db.query(sql,[req.params.id], (err,result) => {       
-        if(err) throw err;    
+        
         const errorMessage = req.flash('missingBit');
         res.render('admineditcontent', {result, user: req.user, currentRoute, message: errorMessage});        
     });
@@ -124,7 +124,7 @@ router.get('/administration', isLoggedIn, isAdmin, function(req, res){
             req.params.id
           ],
           (err, result) => {
-            if (err) throw err;
+            
             res.redirect('/administration');
           }
         );
@@ -168,7 +168,7 @@ router.get('/admineditinvention/:id', isLoggedIn, isAdmin, function (req, res) {
 router.post('/admineditinvention/:id', isLoggedIn, isAdmin, upload.single('image'), async function (req, res, next) {
   let sqlCheckOwnership = 'SELECT adminRights FROM users WHERE Id = ?';
   db.query(sqlCheckOwnership, [req.user.Id], (err, result) => {
-    if (err) throw err;
+    
 
     if (result[0].adminRights === 1) {
       // Check for blank fields
@@ -249,7 +249,7 @@ router.post('/admineditinvention/:id', isLoggedIn, isAdmin, upload.single('image
         req.params.id
       ],
       (err, result) => {
-        if (err) throw err;
+        
         res.redirect('/admininventions');
       }
     );
@@ -268,7 +268,7 @@ router.get('/admininventions',  function(req, res){
   let sql = 'SELECT item_id, title, heading1, valuedAt, investType, image FROM inventItems ORDER By item_id DESC' ;
   let query = db.query(sql,[req.params.id], (err, result) => {  
     
-      if(err) throw err;  
+      
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "The marketplace where your can find an investment or and investor"
@@ -289,7 +289,7 @@ router.get('/adminusers', isLoggedIn, isAdmin, function(req, res){
   const currentRoute = req.url; 
   let sql = 'select * from users';
   let query = db.query(sql, (err,result) => { 
-      if(err) throw err;
+     
       res.render('adminusers', {result, user: req.user, currentRoute});
       });
   });
@@ -320,7 +320,7 @@ router.get('/adminadduser', isLoggedIn, isAdmin, function(req, res){
     let checksql = 'SELECT * FROM users WHERE userName = ?';
     let checkquery = db.query(checksql, [req.body.username],(err,result) => {
         
-          if(err) throw err;
+          
               if (result.length) {
                   
                   req.flash('wrongcombo', 'That Username Has Been Taken By Someone Else!')
@@ -338,7 +338,7 @@ router.get('/adminadduser', isLoggedIn, isAdmin, function(req, res){
 
     let sql = 'INSERT INTO users ( userName, uemail, password ) values (?,?,?)';
     let query = db.query(sql, [newUserMysql.username, newUserMysql.email, newUserMysql.password],(err,result) => {
-      if(err) throw err;
+      
       res.redirect('/adminusers')
     });
   }
@@ -356,18 +356,18 @@ router.get('/adminadduser', isLoggedIn, isAdmin, function(req, res){
     const currentRoute = req.url;
     let sql = 'select * from users WHERE Id = ?';
     let query = db.query(sql,[req.params.id], (err,result) => {     
-            if(err) throw err;    
+             
             res.render('admineditprofile', {result, user: req.user, currentRoute, message: successMessage });    
             });  
 });
 
 
-router.post('/editprofile/:id', isLoggedIn, isAdmin, function(req, res, next) {
+router.post('/admineditprofile/:id', isLoggedIn, isAdmin, function(req, res, next) {
     const somethingMissing = req.flash('This Field Can Not Be Blank');
     
-    let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
-    let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.params.id],(err,result) => {
-       if(err) throw err;
+    let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ?, adminRights = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
+    let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.body.adminbit, req.params.id, req.body.interests, req.body.aboutme, req.body.expecting, req.params.id],(err,result) => {
+       
         res.redirect('/adminusers')
         
     });
@@ -382,7 +382,7 @@ router.post('/editprofile/:id', isLoggedIn, isAdmin, function(req, res, next) {
       let sql = 'Update users set role = ?, membership_status = ? , password = ?   WHERE Id = ?';
       let query = db.query(sql, ["Deleted", "Deleted", hash, req.params.id],(err,res) => {
           
-          if(err) throw err;
+         
         
       });
       
@@ -405,7 +405,7 @@ router.get('/adminabout', isLoggedIn, isAdmin, function(req, res){
 
   let sql = 'select * from packageAbout';
   let query = db.query(sql, (err,result) => { 
-      if(err) throw err;
+      
      
       res.render('adminabout', {result, user: req.user, menubits: req.menubits});
       });
@@ -418,7 +418,7 @@ router.get('/adminabout', isLoggedIn, isAdmin, function(req, res){
  
       let sql = 'select * from packageAbout where Id = ?';
       let query = db.query(sql,[req.params.id], (err,result) => {       
-          if(err) throw err;    
+            
           res.render('admineditabout', {result, user: req.user, menubits: req.menubits});        
       });
     });
@@ -428,9 +428,9 @@ router.get('/adminabout', isLoggedIn, isAdmin, function(req, res){
       var newpeewe = peewee.replace(/(?:\r\n|\r|\n)/g, '<br>')
   
       let sql = 'UPDATE packageAbout SET Title = ? , Description = ?, Image = ? WHERE Id = ?';
-      let query = db.query(sql, [req.body.title, newpeewe, req.body.image, req.params.id,],(err,res) => {
+      let query = db.query(sql, [req.body.title, newpeewe, req.body.image, req.params.id],(err,res) => {
           
-          if(err) throw err;
+          
         
       });
       
@@ -507,7 +507,7 @@ router.post('/newimage', isLoggedIn, isAdmin, upload.single("image"), async func
 router.get('/adminsubscriptions', isLoggedIn, isAdmin, function(req, res) {
   let sql = 'SELECT COUNT(*) as total FROM subscriptions ';
   db.query(sql,(err, countResult) => {
-    if (err) throw err;
+    
     const totalCount = countResult[0].total;
     const offset = req.query.offset || 0;
     const numRowsPerPage = 2;
@@ -544,3 +544,8 @@ router.get('/adminsubscriptions', isLoggedIn, isAdmin, function(req, res) {
 });
 
   module.exports = router;
+
+
+
+
+

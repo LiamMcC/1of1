@@ -112,7 +112,12 @@ router.get('/deniedpermission', isLoggedIn,function(req, res, next) {
 router.get('/login', function(req, res) {
         const successMessage = req.flash('wrongcombo');
         const currentRoute = req.url; // or any logic to determine the current route
-		res.render('login', {flash: req.flash(), message: successMessage, currentRoute,user: req.user});
+        let sql = 'SELECT * FROM webContent WHERE location = ?';
+        let query = db.query(sql,["Login"], (err, result) => {  
+
+		res.render('login', {result, flash: req.flash(), message: successMessage, currentRoute,user: req.user});
+
+        });
 	});
 
 	// process the login form
@@ -138,8 +143,11 @@ router.post('/login', passport.authenticate('local-login', {
 	
 	router.get('/signup', function(req, res) {
         const currentRoute = req.url; // or any logic to determine the current route
-       
-        res.render('register', {user : req.user, currentRoute });
+        let sql = 'SELECT * FROM webContent WHERE location = ?';
+        let query = db.query(sql,["Login"], (err, result) => { 
+        res.render('register', {result, user : req.user, currentRoute });
+
+        })
 	});
 
 	// process the signup form
@@ -151,20 +159,6 @@ router.post('/login', passport.authenticate('local-login', {
 
 	
 
-	// router.get('/profile', isLoggedIn,  function(req, res) {
-  //       const successMessage = req.flash('wrongcombo');
-  //       const currentRoute = req.url;
-  //       // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
-  //       let sql = 'select * from users WHERE userName = ?; select * from profileData where user_id = ?;select userName, summary from users order by Id DESC LIMIT 1; SELECT title, item_id FROM inventItems where createdBy = ?; SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ';
-  //       let query = db.query(sql,[req.user.username, req.user.Id, req.user.userName, req.user.Id, req.user.Id, req.user.Id, req.user.Id, req.user.Id], (err,result) => {     
-  //           if (err) {
-               
-               
-  //             }  
-             
-  //               res.render('profile', {result, user: req.user, currentRoute, message: successMessage });    
-  //               });  
-  //   });
 
 
   // *************** SAMPLING PROFILE ROUTE TO CHECK FOR SUBSCRIPTIONS 
@@ -181,7 +175,7 @@ router.post('/login', passport.authenticate('local-login', {
       'SELECT userName, summary FROM users ORDER BY Id DESC LIMIT 1; ' +
       'SELECT title, item_id FROM inventItems WHERE createdBy = ?; ' +
       'SELECT * FROM Messages WHERE (receiver_id = ? AND erad_Status = 0) OR (sender_id = ? AND previously_opened = ? ) OR (receiver_id = ? AND previously_opened = ? ); ' +
-      'UPDATE users SET membership_status = ? WHERE date_paid < DATE_SUB(NOW(), INTERVAL 2 MINUTE);';
+      'UPDATE users SET membership_status = ? WHERE date_paid < DATE_SUB(NOW(), INTERVAL 8 HOUR);';
   
     let query = db.query(sql, [req.user.username, req.user.Id, req.user.userName, req.user.Id, req.user.Id, req.user.Id, req.user.Id, req.user.Id, "Expired"], (err, result) => {
       if (err) {
@@ -237,6 +231,17 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 	router.post('/messageinventor/:id', isLoggedIn, checkMembershipStatus, function(req, res) {
+
+    const { subject, message } = req.body;
+    const fieldsToCheck = [subject, message];
+    
+    if (fieldsToCheck.some(field => field.includes('<'))) {
+      res.redirect('/careful');
+    } else {
+
+    
+
+
         const successMessage = req.flash('messagesent', "Thank you for sending the message");
         const currentRoute = req.url;
         const currentTimestamp = new Date();
@@ -244,19 +249,26 @@ router.post('/login', passport.authenticate('local-login', {
         sql += 'INSERT INTO MessageThreads (message_id, sender_id, receiver_id, message_text, timestamp, sender_name) VALUES (LAST_INSERT_ID(),?,?,?,?,?);';
         
         let query = db.query(sql, [req.body.subject, req.user.Id, req.params.id, currentTimestamp, req.user.Id, req.params.id, req.body.message, currentTimestamp, req.user.userName], (err, result) => {    
-            if (err) {
-               
-               
-              }  
+     
 
                 res.redirect('/outbox');    
                 });  
+
+              }
     });
 
 
 
 
     router.post('/reply/:id', isLoggedIn,  function(req, res) {
+      const { reply } = req.body;
+      const fieldsToCheck = [reply];
+      
+      if (fieldsToCheck.some(field => field.includes('<'))) {
+        res.redirect('/careful');
+      } else {
+
+
         const successMessage = req.flash('messagesent', "Thank you for sending the message");
         const currentRoute = req.url;
         const currentTimestamp = new Date();
@@ -265,13 +277,12 @@ router.post('/login', passport.authenticate('local-login', {
  
         
         let query = db.query(sql, [req.params.id, req.user.Id, req.body.whoto, req.body.reply, currentTimestamp, req.user.userName, 1, 1,req.body.whoto, req.params.id], (err, result) => {    
-            if (err) {
-               
-               
-              }  
+     
 
                 res.redirect('/profile');    
                 });  
+
+              }
     });
 
 
@@ -283,10 +294,7 @@ router.post('/login', passport.authenticate('local-login', {
       // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
       let sql = 'SELECT * FROM Messages WHERE receiver_id = ?; ';
       let query = db.query(sql,[req.user.Id], (err,result) => {     
-          if (err) {
-             
-             
-            }  
+       
            
               res.render('inbox', {result, user: req.user, currentRoute, message: successMessage });    
               });  
@@ -294,18 +302,15 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 
-  router.get('/outbox', isLoggedIn, checkMembershipStatus, function(req, res) {
+  router.get('/offers', isLoggedIn, checkMembershipStatus, function(req, res) {
     const successMessage = req.flash('wrongcombo');
     const currentRoute = req.url;
     // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
-    let sql = 'SELECT * FROM Messages WHERE sender_id = ?; ';
+    let sql = 'SELECT * FROM offers WHERE offerTo = ?;';
     let query = db.query(sql,[req.user.Id], (err,result) => {     
-        if (err) {
-           
-           
-          }  
+   
          
-            res.render('outbox', {result, user: req.user, currentRoute, message: successMessage });    
+            res.render('offers', {result, user: req.user, currentRoute, message: successMessage });    
             });  
 });
 
@@ -318,10 +323,7 @@ router.post('/login', passport.authenticate('local-login', {
         const currentRoute = req.url;
         let sql = 'select * from users WHERE userName = ?; select * from profileData where user_id = ?; SELECT title, item_id, paragraph1 FROM inventItems where creator_id = ?';
         let query = db.query(sql,[req.params.username, req.params.id, req.params.id], (err,result) => {     
-            if (err) {
-               
-               
-              }  
+  
              
                 res.render('publicprofile', {result, user: req.user, currentRoute, message: successMessage });    
                 });  
@@ -332,14 +334,11 @@ router.post('/login', passport.authenticate('local-login', {
       const currentRoute = req.url;
       let sql = 'SELECT * FROM subscriptions WHERE userName = ? and userId = ? ORDER BY sub_id DESC; ';
       let query = db.query(sql, [req.user.userName, req.user.Id], (err, result) => {
-        if (err) {
-          // Handle errors
-          res.redirect("/error");
-        } else {
+       
           // Send the messages data as JSON
           res.render("pastsubscriptions", {result, user: req.user, currentRoute});
           
-        }
+       
       });
     });
 
@@ -348,7 +347,7 @@ router.post('/login', passport.authenticate('local-login', {
     router.get('/logout', function(req, res, next) {
         
         req.logout(function(err) {
-          if (err) { return next(err); }
+         
           res.redirect('/');
         });
       });
@@ -378,7 +377,7 @@ router.post('/login', passport.authenticate('local-login', {
            
             let sql = 'update users set password = ? where userName = ?;'  
             let query = db.query(sql, [hash, req.user.userName],(err,result) => {
-               if(err) throw err;
+               
                 res.redirect('/logout')
                 
             });
@@ -408,7 +407,7 @@ router.post('/login', passport.authenticate('local-login', {
 
         let sql = 'update users set uPice = ? where userName = ?;'  
         let query = db.query(sql, [req.file.filename, req.user.userName],(err,result) => {
-           if(err) throw err;
+           
             res.redirect('/profile')
             
         });
@@ -464,7 +463,7 @@ router.post('/login', passport.authenticate('local-login', {
             
             let sql = 'update users set password = ? where userName = ?;'  
             let query = db.query(sql, [hash, who],(err,result) => {
-               if(err) throw err;
+              
                req.flash('wrongcombo', randomPassword);
                 res.redirect('/login')
                 
@@ -489,7 +488,7 @@ router.post('/login', passport.authenticate('local-login', {
          // use the generateHash function in our user model
         let sql = 'update users set uemail = ? where userName = ?;'  
         let query = db.query(sql, [req.body.newemail, req.user.userName],(err,result) => {
-           if(err) throw err;
+           
             res.redirect('/profile')
             
         });
@@ -502,13 +501,22 @@ router.post('/login', passport.authenticate('local-login', {
         const currentRoute = req.url;
         let sql = 'select * from profileData WHERE user_id = ?';
         let query = db.query(sql,[req.user.Id], (err,result) => {     
-                if(err) throw err;    
+                  
                 res.render('editprofile', {result, user: req.user, currentRoute, message: successMessage });    
                 });  
     });
 
 
     router.post('/editprofile', isLoggedIn,function(req, res, next) {
+
+      const {newemail, summary, allAbout, interests, aboutme, expecting} = req.body;
+    const fieldsToCheck = [newemail, summary, allAbout, interests, aboutme, expecting];
+    
+    if (fieldsToCheck.some(field => field.includes('<'))) {
+      res.redirect('/careful');
+    } else {
+
+
         const somethingMissing = req.flash('This Field Can Not Be Blank');
         
         db.query("SELECT * FROM profileData WHERE userName = ?",[req.user.userName], function(err, rows) {
@@ -517,14 +525,14 @@ router.post('/login', passport.authenticate('local-login', {
           if (!rows.length) {
             let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;INSERT INTO profileData (interests , aboutMe , expecting, userName, user_id) VALUES (?,?,?,?,?);'  
             let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.user.userName, req.user.Id],(err,result) => {
-               if(err) throw err;
+               
                 res.redirect('/profile')
                 
             });
           } else {
             let sql = 'update users set uemail = ?, summary = ?, allAbout = ?, role = ? where Id = ?;update profileData set interests = ?, aboutMe = ?, expecting = ? where user_id = ?;'  
             let query = db.query(sql, [req.body.newemail, req.body.summary, req.body.allAbout, req.body.role, req.user.Id, req.body.interests, req.body.aboutme, req.body.expecting, req.user.Id],(err,result) => {
-               if(err) throw err;
+               
                 res.redirect('/profile')
                 
             });
@@ -532,7 +540,7 @@ router.post('/login', passport.authenticate('local-login', {
           }
 
         })
-
+      }
     });
 
 

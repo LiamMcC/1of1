@@ -42,6 +42,7 @@
 
                                                             
                                                             <div class="col-12 col-12-mobilep">
+                                                                <input type="hidden" name="hiddenImage" value="<%= result[0].Image %>">
                                                                 <img src="/<%= result[0].Image %>" alt="<%= result[0].Image %>" style="width:230px;"/>
                                                                 <P style="margin-bottom: 0px;">Image</P>
                                                                 <label style="display: inline-block; background-color: #0077FF; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
@@ -66,6 +67,7 @@
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Image Title</P>
+                                                                
                                                                 <input name="imagetitle" type="text" value="<%= result[0].ImageTitle %>">
                                                                 
                                                             </div>
@@ -83,7 +85,8 @@
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Content</P>
-                                                                <textarea name="description" rows="18"  id="message"><%= result[0].Description %></textarea>
+                                                                <% var xxx = result[0].Description.replace(/<br>/g, '\n') %>
+                                                                <textarea name="description" rows="18"  id="message"><%- xxx %></textarea>
                                                             </div>
 
                                                           
@@ -105,14 +108,7 @@
         
                                             <!-- Sidebar -->
         
-<section>
-    <h3>Be patient here</h3>
-    <p>Give as much details as you can in these sections. Be sure to be clear and explain everything any user may not naturally know.</p>
-</section>
-        
-                                                <section>
-                                                    <%- include('../partials/profilelinks') -%>
-                                                </section>
+                                            <%- include('../partials/admininfo') -%>
         
                                         </div>
                                     </div>

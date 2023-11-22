@@ -23,13 +23,13 @@
                             <section>
                                 <h3>In This Blog</h3>
                                 
-                                   <p><%= result[0].SmallBit %></p>
+                                   <p><%= result[0]?.SmallBit ?? "Something Is Missing From Here (OOPS! We are working on this)" %></p>
                                     
                                 </section>
 
                                 <section>
                                     <h3>Author</h3>
-                                    <p><%= result[0].author %></p>
+                                    <p><%= result[0]?.author  ?? "Something Is Missing From Here (OOPS! We are working on this)" %></p>
                                   
                                 </section>
 
@@ -42,11 +42,13 @@
 
                                 <article>
                                     <header>
-                                        <h2><%= result[0].Title %></h2>
-                                        <p>Date: <%= result[0].dateWritten %></p>
+                                        <h2><%= result[0]?.Title  ?? "Something Is Missing From Here (OOPS! We are working on this)"  %></h2>
+                                        <p>Date: <%= result[0]?.dateWritten  ?? "Something Is Missing From Here (OOPS! We are working on this)"  %></p>
                                     </header>
 
-                                    <span class="image featured"><img src="/resized/<%= result[0].Image %>" alt="" /></span>
+                                    <span class="image featured"><img src="/<%= result[0].Image %>" alt="" /></span>
+
+                                    
 
                                     <p><%- result[0].Description %></p>
 

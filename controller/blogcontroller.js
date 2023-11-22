@@ -54,7 +54,7 @@ router.get('/blog',  function(req, res){
   let sql = 'SELECT * FROM 1of1blog ORDER By Id DESC' ;
   let query = db.query(sql,[req.params.id], (err, result) => {  
     
-      if(err) throw err;  
+    
       //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
       var title = "1 Of 1 Researching Ideas & Connecting Investors" 
       var description = "The marketplace where your can find an investment or and investor"
@@ -72,7 +72,7 @@ router.get('/blog',  function(req, res){
     let sql = 'SELECT * FROM 1of1blog WHERE Id = ?' ;
     let query = db.query(sql,[req.params.id], (err, result) => {  
       
-        if(err) throw err;  
+          
         //var cookiePolicyAccept = req.cookies.acceptCookieBrowsing
         var title = "1 Of 1 Researching Ideas & Connecting Investors" 
         var description = "The marketplace where your can find an investment or and investor"
@@ -91,7 +91,7 @@ router.get('/blog',  function(req, res){
       
         let sql = 'select * from 1of1blog';
         let query = db.query(sql, (err,result) => { 
-            if(err) throw err;
+            
            
             res.render('adminblog', {result, user: req.user, currentRoute});
             });
@@ -108,6 +108,15 @@ router.get('/blog',  function(req, res){
       
       
       router.post('/adminaddblog', isLoggedIn, isAdmin, upload.single("image"), async function(req, res){
+        const { title, description, imagetitle, smallbit } = req.body;
+        const fieldsToCheck = [description, smallbit, title, imagetitle];
+        
+        if (fieldsToCheck.some(field => field.includes('<'))) {
+          res.redirect('/careful');
+        } else {
+
+
+
           const { filename: image } = req.file;      
           await sharp(req.file.path)
               .resize(500, 500)
@@ -123,11 +132,12 @@ router.get('/blog',  function(req, res){
           let sql = 'INSERT INTO 1of1blog (Title, Icon, Description, Image, ImageTitle, SmallBit, author, dateWritten) VALUES (?,?,?,?,?,?,?, ?)';
           let query = db.query(sql, [req.body.title, req.body.icon, newpeewe, req.file.filename, req.body.imagetitle, req.body.smallbit, req.body.author, today],(err,res) => {
               
-              if(err) throw err;
+            
        
           });
           
           res.redirect('/adminblog');
+        }
         });
       
       
@@ -138,36 +148,52 @@ router.get('/blog',  function(req, res){
       
           let sql = 'select * from 1of1blog where Id = ?';
           let query = db.query(sql,[req.params.id], (err,result) => {       
-              if(err) throw err;    
+                
               res.render('admineditblog', {result, user: req.user, currentRoute, message: successMessage});        
           });
         });
       
       
         router.post('/admineditthisblog/:id', isLoggedIn, isAdmin, upload.single('image'), async function (req, res) {
-          const { title, icon, description, image, imagetitle, smallbit } = req.body;
-          const newDescription = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-          let newImage = null; // Initialize the new image variable
+          const { title, icon, description, hiddenImage, imagetitle, smallbit } = req.body;
+
+           
+        const fieldsToCheck = [description, smallbit, title, imagetitle];
         
-          if (!title || !icon || !description || !imagetitle || !smallbit) {
-            // Check if any required elements are missing
-            req.flash('missingBit', 'All required fields must be filled in');
-            return res.redirect(req.originalUrl);
+        if (fieldsToCheck.some(field => field.includes('<'))) {
+            res.redirect('/careful');
+          } else {
+
+            const newDescription = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            let newImage = hiddenImage; // Initialize the new image variable
+          
+            
+  
+            if (!title || !icon || !description || !imagetitle || !smallbit) {
+              // Check if any required elements are missing
+              req.flash('missingBit', 'All required fields must be filled in');
+              return res.redirect(req.originalUrl);
+            }
+          
+            if (req.file) {
+              // If a new image is uploaded, use it
+              newImage = req.file.filename;
+            }
+          
+            // Construct the SQL query with conditional image update
+            const sql = 'UPDATE 1of1blog SET Title = ?, Icon = ?, Description = ?, Image = ?, ImageTitle = ?, SmallBit = ?, author = ? WHERE Id = ?';
+            const queryParams = [title, icon, newDescription, newImage , imagetitle, smallbit, req.body.author, req.params.id];
+         
+            db.query(sql, queryParams, (err, result) => {
+             
+              res.redirect('/adminblog');
+            });
+
           }
+          
+          
+          
         
-          if (req.file) {
-            // If a new image is uploaded, use it
-            newImage = req.file.filename;
-          }
-        
-          // Construct the SQL query with conditional image update
-          const sql = 'UPDATE 1of1blog SET Title = ?, Icon = ?, Description = ?, Image = ?, ImageTitle = ?, SmallBit = ? WHERE Id = ?';
-          const queryParams = [title, icon, newDescription, newImage || image, imagetitle, smallbit, req.params.id];
-        
-          db.query(sql, queryParams, (err, result) => {
-            if (err) throw err;
-            res.redirect('/adminblog');
-          });
         });
         
         
@@ -176,7 +202,7 @@ router.get('/blog',  function(req, res){
           let sql = 'DELETE FROM 1of1blog WHERE Id = ?';
           let query = db.query(sql, [req.params.id],(err,res) => {
               
-              if(err) throw err;
+            
             
           });
           

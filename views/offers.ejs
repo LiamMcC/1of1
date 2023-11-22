@@ -10,36 +10,36 @@
 
                 <article>
                     <header>
-                        <h2>Admin Area, Welcome <%= user.userName %></h2>
-                        <p>Remember To Log Out</p>
-                        <p><a href="/administration">&LeftArrow; Back To Admin</a></p>
+                        <h2>All <%= user.userName %>'s Offers</h2>
+                        <p>Any offers made on your inventions are here</p>
+                        <p><a href="/profile">&LeftArrow; Back To Profile</a></p>
                     </header>
 
                     
 
-                    <h3>Registered Users</h3>
+                    <h3>Here are your offers</h3>
 
                     <table>
                         <tr>
-                          <th>Id</th>
-                          <th>Title</th>
-                          <th>Status</th>
-                          <th>Admin</th>
-                          <th>Membership</th>
-                          <th>Edit</th>
-                          <th>Delete</th>
+                          <th>Offer From</th>
+                          <th>Invention Id</th>
+                          <th>Offer Vlue</th>
+                          <th>Date Offered</th>
+                          
                          
                          
                         </tr>
                         <% result.forEach(function(iContent) { %>
                         <tr>
-                          <td><%= iContent.Id %></td>
-                          <td><%= iContent.userName %></td>
-                          <td><%= iContent.role %></td>
-                          <td><%= iContent.adminRights %></td>
-                          <td><%= iContent.membership_status %></td>
-                          <td><a href="/adminedituser/<%= iContent.Id %>" >Go!</a></td>
-                          <td><a href="/admindeleteuser/<%= iContent.Id %>" data-confirm="true">Delete!</a></td>
+                          <td><%= iContent.offerfrom %></td>
+                          <td><%= iContent.inventId %></td>
+                          <td>&euro;<%= iContent.offerValue %></a></td>
+                          <% 
+  const date = new Date(iContent.dateOffered);
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const formattedDate = date.toLocaleDateString('en-GB', options);
+%>
+                          <td><%= formattedDate %></td>
 
                          
                         </tr>
@@ -48,7 +48,7 @@
                   
                       </table>
 
-                      <a href="/adminaddblog" >Write A New Blog Article</a>
+                      
                 </article>
 
         </div>
@@ -66,7 +66,7 @@
         var url = $(this).attr('href');
   
         // Display a confirmation dialog
-        if (confirm('Are you sure you want to delete this user?')) {
+        if (confirm('Are you sure you want to delete this blog post?')) {
           // If the user confirms, redirect to the delete URL
           window.location.href = url;
         }

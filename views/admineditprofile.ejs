@@ -18,7 +18,7 @@
                                                         <p><a href="/administration">&LeftArrow; Back To Admin</a></p>
                                                     </header>
         
-                                                    <form action="/editprofile" method="post">
+                                                    <form action="/admineditprofile/<%= result[0].Id %>" method="post">
                                                         <div class="row gtr-50">
 
                                                             <div class="col-12 col-12-mobilep">
@@ -61,11 +61,22 @@
                                                                 <P style="margin-bottom: 0px;">Change Role</P>
                                                                 <label>Role</label>
                                                                 <select name="role" class="form-control">
-                                                                  <option value="Inventor" <% if (user.role === "Inventor") { %>selected<% } %>>Creator (Have an idea to put before Investors)</option>
-                                                                  <option value="Investor" <% if (user.role === "Investor") { %>selected<% } %>>Investor (Looking for Ideas TO Buy)</option>
+                                                                  <option value="Inventor" <% if (result[0].role === "Inventor") { %>selected<% } %>>Creator (Have an idea to put before Investors)</option>
+                                                                  <option value="Investor" <% if (result[0].role === "Investor") { %>selected<% } %>>Investor (Looking for Ideas TO Buy)</option>
                                                                 </select>
                                                                 
                                                         </div>
+
+
+                                                        <div class="col-12">
+                                                            <P style="margin-bottom: 0px;">Make Admin</P>
+                                                            <p>User Admin Rights (Debug): <%= result[0].adminRights %></p>
+                                                            <select name="adminbit" class="form-control">
+                                                                <option value=0 <% if (result[0].adminRights === 0) { %>selected<% } %>>Normal User</option>
+                                                                <option value=1 <% if (result[0].adminRights === 1) { %>selected<% } %>>Admin</option>
+                                                              </select>
+                                                            
+                                                    </div>
 
                                                             <div class="col-12">
                                                                 <ul class="actions">
@@ -84,19 +95,7 @@
         
                                             <!-- Sidebar -->
         
-                                                <section>
-                                                    <h3>Just a Subheading</h3>
-                                                    <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-                                                    Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-                                                    Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis et nisi etiam.</p>
-                                                    <footer>
-                                                        <a href="#" class="button">Continue Reading</a>
-                                                    </footer>
-                                                </section>
-        
-                                                <section>
-                                                    <%- include('../partials/profilelinks') -%>
-                                                </section>
+                                            <%- include('../partials/admininfo') -%>
         
                                         </div>
                                     </div>
