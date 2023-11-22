@@ -6,29 +6,31 @@
                         <h3>Information</h3>
                         <ul class="links">
                             
-                            <li><a href="#">Subscriptions Information</a></li>
-                            <li><a href="#">Membership Information</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Research Areas</a></li>
-                            <li><a href="#">Blog Posts</a></li>
+                            <li><a href="/1of1info/Subscription">Subscriptions Information</a></li>
+                            <li><a href="/1of1info/Membership">Membership Information</a></li>
+                            <li><a href="/1of1info/About">About Us</a></li>
+                            <li><a href="/1of1info/Contact">Contact Us</a></li>
+                            <li><a href="/research">Research Areas</a></li>
+                            <li><a href="/blog">Blog Posts</a></li>
                         </ul>
                     </section>
                     <section class="col-3 col-6-narrower col-12-mobilep">
                         <h3>Privacy</h3>
                         <ul class="links">
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="/1of1info/Privacy">Privacy Policy</a></li>
+                            
+                            <li><a href="/1of1info/Terms">Terms & Conditions</a></li>
+                            <li><a href="/1of1info/Acceptable">Acceptable Use Policy</a></li>
                             <li><a href="/rejectCookie">Reject Cookie Acceptance</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Acceptable Use Policy</a></li>
-                            <li><a href="#">Administration Policy</a></li>
+                            <li><a href="/1of1info/Membinfo">Membership Information</a></li>
+                            
                             
                             <% if (isAuthenticated) { %>
                                 <% if (user.adminRights == true) { %>
                                     <li><a href="/administration">Admin</a></li>
                                     <% } %>
                                     <%} else { %>
-                                        <li><a href="#">Research Matters</a></li>
+                                        <li><a href="/1of1info/Adminuse">Administration Use Policy</a></li>
                                         <% } %>
                             
                         </ul>
