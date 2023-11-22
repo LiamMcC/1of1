@@ -29,14 +29,15 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Title</P>
-                                                                <input type="text" name="title" id="name" value="<%= result[0].title %>" />
-                                                                
+                                                                <input type="text" name="title" id="title" value="<%= result[0].title %>" rows="3"/>
+                                                                <p class="notification" id="summaryCharLimitNotification"></p>
                                                             </div>
 
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Main Heading</P>
-                                                                <textarea name="heading1" id="message" rows="5"><% if (result[0].heading1) { %><%= result[0].heading1 %><% } else { %>Please enter a short title for the item here!<% } %></textarea>
+                                                                <textarea name="heading1" id="heading1" rows="3"><% if (result[0].heading1) { %><%= result[0].heading1 %><% } else { %>Please enter a short title for the item here!<% } %></textarea>
+                                                                <p class="notification" id="heading1CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12 col-12-mobilep">
@@ -65,50 +66,58 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Main Paragraph</P>
-                                                                <textarea name="paragraph1" id="message" rows="5"><% if (result[0].paragraph1) { %><%= result[0].paragraph1 %><% } else { %>Please enter somedescriptive information about the item here!<% } %></textarea>
+                                                                <% var xxx = result[0].paragraph1.replace(/<br>/g, '\n') %>
+                                                                <textarea name="paragraph1" id="message" rows="5"><% if (result[0].paragraph1) { %><%= xxx %><% } else { %>Please enter somedescriptive information about the item here!<% } %></textarea>
 
                                                                 
                                                             </div>
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Sub Heading</P>
-                                                                <textarea name="heading2" id="message" rows="5"><% if (result[0] && result[0].heading2) { %><%= result[0].heading2 %><% } else { %>Please enter a second short heading here!<% } %></textarea>
-                                                                
+                                                                <textarea name="heading2" id="heading2" rows="5"><% if (result[0] && result[0].heading2) { %><%= result[0].heading2 %><% } else { %>Please enter a second short heading here!<% } %></textarea>
+                                                                <p class="notification" id="heading2CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Sub Paragraph</P>
-                                                                <textarea name="paragraph2" id="message" rows="5"><% if (result[0] && result[0].paragraph2) { %><%= result[0].paragraph2 %><% } else { %>Please enter additional information here!<% } %></textarea>
+                                                                <% var yyy = result[0].paragraph1.replace(/<br>/g, '\n') %>
+                                                                <textarea name="paragraph2" id="message" rows="5"><% if (result[0] && result[0].paragraph2) { %><%= yyy %><% } else { %>Please enter additional information here!<% } %></textarea>
                                                                 
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 1 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature1" value="<% if (result[0] && result[0].main_feature1) { %><%= result[0].main_feature1 %><% } else { %>Please enter your the first main feature here!<% } %>"/>
+                                                                <input type="text" name="mainfeature1" id="mainfeature1" value="<% if (result[0] && result[0].main_feature1) { %><%= result[0].main_feature1 %><% } else { %>Please enter your the first main feature here!<% } %>"/>
+                                                                <p class="notification" id="mainfeature1CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 2 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature2" value="<% if (result[0] && result[0].main_feature2) { %><%= result[0].main_feature2 %><% } else { %>Please enter your the first second feature here!<% } %>"/>
+                                                                <input type="text" name="mainfeature2" id="mainfeature2" value="<% if (result[0] && result[0].main_feature2) { %><%= result[0].main_feature2 %><% } else { %>Please enter your the first second feature here!<% } %>"/>
+                                                                <p class="notification" id="mainfeature2CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 3 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature3" value="<% if (result[0] && result[0].main_feature3) { %><%= result[0].main_feature3 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <input type="text" name="mainfeature3" id="mainfeature3" value="<% if (result[0] && result[0].main_feature3) { %><%= result[0].main_feature3 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <p class="notification" id="mainfeature3CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 4 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature4" value="<% if (result[0] && result[0].main_feature4) { %><%= result[0].main_feature4 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <input type="text" name="mainfeature4" id="mainfeature4" value="<% if (result[0] && result[0].main_feature4) { %><%= result[0].main_feature4 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <p class="notification" id="mainfeature4CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 5 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature5" value="<% if (result[0] && result[0].main_feature5) { %><%= result[0].main_feature5 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <input type="text" name="mainfeature5" id="mainfeature5" value="<% if (result[0] && result[0].main_feature5) { %><%= result[0].main_feature5 %><% } else { %>Please enter your the first thirdfeature here!<% } %>"/>
+                                                                <p class="notification" id="mainfeature5CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Value Required (Numbers Only)</P>
                                                                 <input type="number" name="valuedat" value="<% if (result[0] && result[0].valuedAt) { %><%= result[0].valuedAt %><% } else { %>What price are you looking for (Numbers Only)!<% } %>"/>
+                                                            
                                                             </div>
 
                                                             <div class="col-12">
@@ -142,5 +151,135 @@
                                 </div>
                             </div>
                         </section>
+
+
+
+                        <script>
+                            $(document).ready(function() {
+                          
+                        
+                                // Title
+                                var summaryTextarea = $('#title');
+                                var summaryCharLimitNotification = $('#summaryCharLimitNotification');
+                                var summaryCharLimit = 255;
+                        
+                                summaryTextarea.on('input', function() {
+                                    var currentLength = $(this).val().length;
+                                    if (currentLength > summaryCharLimit) {
+                                        summaryCharLimitNotification.text('Character limit exceeded!').show();
+                                    } else {
+                                        summaryCharLimitNotification.hide();
+                                    }
+                                });
+
+
+                                  // Heading 1
+        var heading1Textarea = $('#heading1');
+        var heading1CharLimitNotification = $('#heading1CharLimitNotification'); // Corrected ID
+        var heading1CharLimit = 255;
+
+        heading1Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > heading1CharLimit) {
+                heading1CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                heading1CharLimitNotification.hide();
+            }
+        });
+
+
+                                      // Heading 2
+                                      var heading2Textarea = $('#heading2');
+        var heading2CharLimitNotification = $('#heading2CharLimitNotification'); // Corrected ID
+        var heading2CharLimit = 255;
+
+        heading2Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > heading2CharLimit) {
+                heading2CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                heading2CharLimitNotification.hide();
+            }
+        });
+
+
+                                           // Main Feature 1
+        var mainFeature1Textarea = $('#mainfeature1');
+        var mainFeature1CharLimitNotification = $('#mainfeature1CharLimitNotification'); // Corrected ID
+        var mainFeature1CharLimit = 50;
+
+        mainFeature1Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature1CharLimit) {
+                mainFeature1CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature1CharLimitNotification.hide();
+            }
+        });
+
+
+        
+                                           // Main Feature 2
+                                           var mainFeature2Textarea = $('#mainfeature2');
+        var mainFeature2CharLimitNotification = $('#mainfeature2CharLimitNotification'); // Corrected ID
+        var mainFeature2CharLimit = 50;
+
+        mainFeature2Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature2CharLimit) {
+                mainFeature2CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature2CharLimitNotification.hide();
+            }
+        });
+
+
+        
+                                           // Main Feature 3
+                                           var mainFeature3Textarea = $('#mainfeature3');
+        var mainFeature3CharLimitNotification = $('#mainfeature3CharLimitNotification'); // Corrected ID
+        var mainFeature3CharLimit = 50;
+
+        mainFeature3Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature3CharLimit) {
+                mainFeature3CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature3CharLimitNotification.hide();
+            }
+        });
+
+
+                 // Main Feature 4
+                 var mainFeature4Textarea = $('#mainfeature4');
+        var mainFeature4CharLimitNotification = $('#mainfeature4CharLimitNotification'); // Corrected ID
+        var mainFeature4CharLimit = 50;
+
+        mainFeature4Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature4CharLimit) {
+                mainFeature4CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature4CharLimitNotification.hide();
+            }
+        });
+
+
+                 // Main Feature 3
+                 var mainFeature5Textarea = $('#mainfeature5');
+        var mainFeature5CharLimitNotification = $('#mainfeature5CharLimitNotification'); // Corrected ID
+        var mainFeature5CharLimit = 50;
+
+        mainFeature5Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature5CharLimit) {
+                mainFeature5CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature5CharLimitNotification.hide();
+            }
+        });
+
+    });
+                        </script>
 
                 <%- include('../partials/footer') -%>

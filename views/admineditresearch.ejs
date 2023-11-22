@@ -92,7 +92,8 @@
                                                             </div>
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Content</P>
-                                                                <textarea name="description" rows="18"  id="message"><%= result[0][0].description %></textarea>
+                                                                <% var xxx = result[0][0].description.replace(/<br>/g, '\n') %>
+                                                                <textarea name="description" rows="18"  id="message"><%- xxx %></textarea>
                                                             </div>
 
                                                           

@@ -12,7 +12,42 @@
                     <header>
                         <h2><%= result[0].title %></h2>
                         <p><%= result[0].main_feature1 %></p>
+
+
+                     
                     </header>
+
+                    <% if (result[0].location == "cookiesneeded") { %>
+                        <h3>Want To Accept Cookies?</h3>
+                        <p>This website uses cookies to enhance your browsing experience and provide personalized content. By continuing to use our site, you agree to the use of cookies.
+  Cookies are small text files that are stored on your device. They allow us to remember your preferences, analyze site traffic, and tailor our services to your needs.
+  For more information about how we use cookies and your privacy options, please review our <a href="/privacy-policy">Cookie Policy</a>.</p>
+  <a href="/acceptcookies" class="button">Accept Cookies</a>
+                      <% } else if (result[0].location == "Contact"){ %>
+                        <form action="/contact" method="post">
+                            <div class="row gtr-50">
+                                <div class="col-6 col-12-mobilep">
+                                    <input type="text" name="fullname" id="name" placeholder="Name" />
+                                </div>
+                                <div class="col-6 col-12-mobilep">
+                                    <input type="email" name="email" id="email" placeholder="Email" />
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="comment" id="message" placeholder="Message" rows="5"></textarea>
+                                </div>
+                                
+
+                                <div class="col-6 col-12-mobilep">
+                                    <input type="text" name="verifybox" id="email" placeholder="What Is The Capital Of Spain" />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" class="button alt" value="Send Message" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                      <% } %> 
 
                     <span class="image featured"><img src="/<%= result[0].image %>" alt="" /></span>
 
@@ -25,6 +60,8 @@
 
                     <p><%= result[0].paragraph2 %></p>
                 </article>
+
+                
 
         </div>
     </div>

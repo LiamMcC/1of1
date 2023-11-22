@@ -10,6 +10,11 @@ var Email = require("../coms/email.js");
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 require('dotenv').config();
 
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
+
 function isLoggedIn(req, res, next) {
 
 	// if user is authenticated in the session, carry on

@@ -23,6 +23,10 @@ const storage = multer.diskStorage({
  
 var upload = multer({ storage: storage })
 
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
 
 function checkMembershipStatus(req, res, next) {
   // && new Date() <= req.user.membership_expiry_date

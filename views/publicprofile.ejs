@@ -84,19 +84,19 @@
 											</header>
 
 											<h3>Summary</h3>
-											<p><%= result[0][0].summary %></p>
+											<p><%- result[0][0].summary.replace(/\n/g, '<br>') %></p>
 
 											<h3>About Me</h3>
-											<p><%= result[0][0].allAbout %></p>
+											<p><%- result[0][0].allAbout.replace(/\n/g, '<br>') %></p>
 
 											<h3>Interests</h3>
-											<p><%= result[1]?.[0]?.interests ?? 'This user has not registered any interests yet. Check back soon' %></p>
+											<p><%- result[1]?.[0]?.interests.replace(/\n/g, '<br>') ?? 'This user has not registered any interests yet. Check back soon' %></p>
 
 											<h3>Expecting</h3>
-											<p><%= result[1]?.[0]?.expecting ?? 'This user has not registered any expectations yet. Check back soon' %></p>
+											<p><%- result[1]?.[0]?.expecting.replace(/\n/g, '<br>') ?? 'This user has not registered any expectations yet. Check back soon' %></p>
 
 											<h3>A Bit More</h3>
-											<p><%= result[1]?.[0]?.aboutMe ?? 'This user has not registered any additional information yet. Check back soon' %></p>
+											<p><%- result[1]?.[0]?.aboutMe.replace(/\n/g, '<br>') ?? 'This user has not registered any additional information yet. Check back soon' %></p>
 
 
 										</article>

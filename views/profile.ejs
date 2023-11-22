@@ -59,22 +59,22 @@
 											</header>
 
 											<h3>Summary</h3>
-											<p><%= user.summary %></p>
+											<p><%- user.summary.replace(/\n/g, '<br>') %></p>
 
 											<h3>About Me</h3>
-											<p><%= user.allAbout %></p>
+											<p><%- user.allAbout.replace(/\n/g, '<br>') %></p>
 
 											
 											<h3>Interests</h3>
 											<% if (result[1] && result[1][0] && result[1][0].interests) { %>
-											<p><%= result[1][0].interests %></p>
+											<p><%- result[1][0].interests.replace(/\n/g, '<br>') %></p>
 											<% } else { %>
 											<p>No info supplied</p>
 											<% } %>
 
 											<h3>Expecting</h3>
 											<% if (result[1] && result[1][0] && result[1][0].expecting) { %>
-											<p><%= result[1][0].expecting %></p>
+											<p><%- result[1][0].expecting.replace(/\n/g, '<br>') %></p>
 											<% } else { %>
 											<p>No info supplied</p>
 											<% } %>
@@ -135,7 +135,7 @@
 												  <li>This user has not yet listed any items.</li>
 												<% } else { %>
 												  <% result[3].forEach(function(myInvents) { %>
-													<li><a href="/editinvention/<%= myInvents.item_id %>"><b><%= myInvents.title %> (<%= myInvents.item_id %>)</b></a></li>
+													<li><a href="/editinvention/<%= myInvents.item_id %>"><b><%= myInvents.title %></b></a></li>
 												  <% }); %>
 												<% } %>
 											  </ul>

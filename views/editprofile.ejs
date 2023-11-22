@@ -22,14 +22,18 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Email Address</P>
-                                                                <input type="text" name="newemail" id="name" value="<%= user.uemail %>" />
+                                                                <input type="text" name="newemail" id="email" value="<%= user.uemail %>" />
                                                                 
                                                             </div>
 
 
+                                                           
+
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Summary About You</P>
-                                                                <textarea name="summary" id="message" rows="5"><% if (user.summary) { %><%= user.summary %><% } else { %>This User Has Not Identified A Summary Of Their Profile Yet!<% } %></textarea>
+                                                                <% var xxx = user.summary.replace(/<br>/g, '\n') %>
+                                                                <textarea name="summary" id="message" rows="5"><% if (user.summary) { %><%= xxx %><% } else { %>This User Has Not Identified A Summary Of Their Profile Yet!<% } %></textarea>
+                                                                <p class="notification" id="summaryCharLimitNotification"></p>
                                                             </div>
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Detailed Information About You</P>
@@ -102,5 +106,27 @@
                                 </div>
                             </div>
                         </section>
+
+
+
+                        <script>
+                            $(document).ready(function() {
+                          
+                        
+                                // Summary About You
+                                var summaryTextarea = $('#message');
+                                var summaryCharLimitNotification = $('#summaryCharLimitNotification');
+                                var summaryCharLimit = 255;
+                        
+                                summaryTextarea.on('input', function() {
+                                    var currentLength = $(this).val().length;
+                                    if (currentLength > summaryCharLimit) {
+                                        summaryCharLimitNotification.text('Character limit exceeded!').show();
+                                    } else {
+                                        summaryCharLimitNotification.hide();
+                                    }
+                                });
+                            });
+                        </script>
 
                 <%- include('../partials/footer') -%>

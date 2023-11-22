@@ -17,6 +17,11 @@ const sharp = require('sharp')
 const fs = require('fs');
 
 
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
+
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {

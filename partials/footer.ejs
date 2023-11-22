@@ -18,7 +18,7 @@
                         <h3>Privacy</h3>
                         <ul class="links">
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="/rejectCookie">Reject Cookie Acceptance</a></li>
                             <li><a href="#">Terms & Conditions</a></li>
                             <li><a href="#">Acceptable Use Policy</a></li>
                             <li><a href="#">Administration Policy</a></li>
@@ -86,6 +86,19 @@
         </div>
 
 </div>
+
+
+<% if (typeof cookies === 'undefined' || cookies.cookie_consent !== '1') { %>
+    <!-- Your cookie banner HTML code here -->
+    <div id="cookie-banner" class="cookie-banner">
+        <p>We use cookies to ensure you get the best experience on our website. By continuing to use our site, you consent to our use of cookies. 
+            <a href="/cookieinfo">Learn more</a>
+          </p>
+          <form action="/acceptCookie" method="post">
+            <button id="accept-cookies">Accept</button>
+          </form>
+    </div>
+    <% } %>
 
 <!-- Scripts -->
     <script src="../../jquery.min.js"></script>

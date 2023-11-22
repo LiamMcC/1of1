@@ -219,7 +219,7 @@ static orderConfirmed(xxemail) {
 // *************************** Order Confirmed Mail To Be Configured
 
 
-static offerSubmitted(name, email) {
+static offerSubmitted(email, name ) {
 
   var mailOptions = {
    from: 'me@liammccabe.ie', // Your email address here
@@ -230,9 +230,9 @@ static offerSubmitted(name, email) {
   
     html: `
     <div style="background-color: #f2f7ff; padding: 20px;">
-      <h2 style="color: #3498db;">New Offer Submitted</h2>
+      <h2 style="color: #3498db;">New Offer Received</h2>
       
-      <p style="color: #555;"> Good news! You have been made an offer on one of your inventions in the 1 of 1 Marketplace. </p>
+      <p style="color: #555;"> Good news! You have been made an offer on one of your inventions (${name}) in the 1 of 1 Marketplace. </p>
       <p style="color: #555;"> You can review this offer in your profile under the offers tab. You can also message the person who submitted the offer through your profile. </p>
       <p style="color: #555;"> Remember offers like this are most often a starting point for negotiations and for opening dialogue. </p>
       <p style="color: #555;"> Good luck with this process and we wish you all the best in the upcoming discussions. </p>

@@ -11,6 +11,11 @@ router.use(require('./user'))
 // var Email = require("../coms/email.js");
 
 
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
+
 function checkMembershipStatus(req, res, next) {
   // && new Date() <= req.user.membership_expiry_date
    if (req.user.membership_status === 'Active' ) {
@@ -225,6 +230,43 @@ router.get('/careful', function(req, res){
 
 // ****************** Error Route 
 
+
+// ***************** Cookie
+
+router.post('/acceptCookie', function(req, res) {
+
+  let options = {
+      maxAge: 1000 * 60 * 5// would expire after 90 minutes
+      //httpOnly: true, // The cookie only accessible by the web server
+    // signed: true // Indicates if the cookie should be signed
+  }
+ 
+  res.cookie('cookie_consent', 1, options) // options is optional
+  //res.send('')
+
+
+ 
+  res.redirect(req.get('referer'));
+ //res.redirect('/');
+ });
+
+
+ router.get('/rejectCookie', function(req, res) {
+
+  let options = {
+      maxAge: 1000 * 60 * 5// would expire after 90 minutes
+      //httpOnly: true, // The cookie only accessible by the web server
+    // signed: true // Indicates if the cookie should be signed
+  }
+ 
+  res.cookie('cookie_consent', 0 , options) // options is optional
+  //res.send('')
+
+
+ 
+  res.redirect(req.get('referer'));
+ //res.redirect('/');
+ });
 
 
   module.exports = router;

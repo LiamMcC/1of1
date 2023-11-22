@@ -27,7 +27,10 @@ const storage = multer.diskStorage({
    
   var upload = multer({ storage: storage })
 
-
+  router.use((req, res, next) => {
+    res.locals.cookies = req.cookies;
+    next();
+  });
 
 function isLoggedIn(req, res, next) {
 

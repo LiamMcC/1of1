@@ -12,6 +12,7 @@
                     <header>
                         <h2>All <%= user.userName %>'s Offers</h2>
                         <p>Any offers made on your inventions are here</p>
+                        <p>You can contact the person that made the offer through the messages section in your profile.</p>
                         <p><a href="/profile">&LeftArrow; Back To Profile</a></p>
                     </header>
 
@@ -22,7 +23,7 @@
                     <table>
                         <tr>
                           <th>Offer From</th>
-                          <th>Invention Id</th>
+                          <th>Invention Title</th>
                           <th>Offer Vlue</th>
                           <th>Date Offered</th>
                           
@@ -32,7 +33,7 @@
                         <% result.forEach(function(iContent) { %>
                         <tr>
                           <td><%= iContent.offerfrom %></td>
-                          <td><%= iContent.inventId %></td>
+                          <td><%= iContent.iTitle %></td>
                           <td>&euro;<%= iContent.offerValue %></a></td>
                           <% 
   const date = new Date(iContent.dateOffered);

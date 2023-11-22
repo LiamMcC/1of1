@@ -31,6 +31,10 @@ const storage = multer.diskStorage({
 
 router.use(flash()); // use connect-flash for flash messages stored in session
 
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
 
 function isLoggedIn(req, res, next) {
 
@@ -136,7 +140,10 @@ router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function
       res.redirect('/careful');
     } else {
     
-    
+      var peewee = req.body.paragraph1
+      var newpeewe = peewee.replace(/(?:\r\n|\r|\n)/g, '<br>')
+      var peeweeb = req.body.paragraph2
+      var newpeeweb = peeweeb.replace(/(?:\r\n|\r|\n)/g, '<br>')
     
     
     let sqlCheckOwnership = 'SELECT createdBy, image FROM inventItems WHERE item_id = ?';
@@ -209,9 +216,9 @@ router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function
         [
           req.body.title,
           req.body.heading1,
-          req.body.paragraph1,
+          newpeewe,
           req.body.heading2,
-          req.body.paragraph2,
+          newpeeweb,
           req.body.mainfeature1,
           req.body.mainfeature2,
           req.body.mainfeature3,
@@ -260,6 +267,14 @@ router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function
           res.redirect('/careful');
         } else {
         
+          var peewee = req.body.paragraph1
+          var newpeewe = peewee.replace(/(?:\r\n|\r|\n)/g, '<br>')
+          var peeweeb = req.body.paragraph2
+          var newpeeweb = peeweeb.replace(/(?:\r\n|\r|\n)/g, '<br>')
+
+
+
+
         
         // Check for blank fields
         if (
@@ -305,9 +320,9 @@ router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function
             req.user.userName,
             req.user.Id,
             req.body.heading1,
-            req.body.paragraph1,
+            newpeewe,
             req.body.heading2,
-            req.body.paragraph2,
+            newpeewe2,
             req.body.mainfeature1,
             req.body.mainfeature2,
             req.body.mainfeature3,
@@ -340,10 +355,10 @@ router.get('/marketplace/:name/:id', isLoggedIn, checkMembershipStatus, function
             const currentTimestamp = new Date();
             let sql = 'INSERT INTO Messages (message_subject, sender_id, receiver_id, timestamp) VALUES (?,?,?,?);';
             sql += 'INSERT INTO MessageThreads (message_id, sender_id, receiver_id, message_text, timestamp, sender_name) VALUES (LAST_INSERT_ID(),?,?,?,?,?);';
-            sql += 'INSERT INTO offers (offerfrom, offerTo, offerValue, inventId) VALUES (?, ?, ?, ?)'
-            let query = db.query(sql, ["Offer On Invention" , req.user.Id, req.params.id, currentTimestamp, req.user.Id, req.params.id, "I am interested in your invention " + req.params.whatName + " and would like to submit a provisional offer of " + req.body.offer, currentTimestamp, req.user.userName,  req.user.userName, req.params.id, req.body.offer, req.params.whatid ], (err, result) => {    
+            sql += 'INSERT INTO offers (offerfrom, offerTo, offerValue, inventId, inventTitle) VALUES (?, ?, ?, ?, ?)'
+            let query = db.query(sql, ["Offer On Invention" , req.user.Id, req.params.id, currentTimestamp, req.user.Id, req.params.id, "I am interested in your invention " + req.params.whatName + " and would like to submit a provisional offer of " + req.body.offer, currentTimestamp, req.user.userName,  req.user.userName, req.params.id, req.body.offer, req.params.whatid, req.body.aboutinvention ], (err, result) => {    
          
-                    Email.offerSubmitted(req.user.uemail)
+                    Email.offerSubmitted(req.user.uemail, req.body.aboutinvention)
 
                     res.redirect('/profile');    
                     });  

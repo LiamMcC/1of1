@@ -29,8 +29,9 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Title</P>
-                                                                <input type="text" name="title" id="name" placeholder="Invention Title" />
+                                                                <input type="text" name="title" id="title" placeholder="Invention Title" />
                                                                 
+                                                                <p class="notification" id="summaryCharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12 col-12-mobilep">
@@ -57,7 +58,8 @@
 
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Main Heading</P>
-                                                                <textarea name="heading1" id="message" rows="5">Main Heading</textarea>
+                                                                <textarea name="heading1" id="heading1" rows="5">Main Heading</textarea>
+                                                                <p class="notification" id="heading1CharLimitNotification"></p>
                                                             </div>
                                                             <div class="col-12 col-12-mobilep">
                                                                 <P style="margin-bottom: 0px;">Main Paragraph</P>
@@ -67,8 +69,8 @@
                                                             </div>
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Sub Heading</P>
-                                                                <textarea name="heading2" id="message" rows="5">Sub Heading</textarea>
-                                                                
+                                                                <textarea name="heading2" id="heading2" rows="5">Sub Heading</textarea>
+                                                                <p class="notification" id="heading2CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
@@ -79,27 +81,32 @@
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 1 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature1" placeholder="First Main Feature"/>
+                                                                <input type="text" name="mainfeature1" id="mainfeature1" placeholder="First Main Feature"/>
+                                                                <p class="notification" id="mainfeature1CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 2 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature2" placeholder="Second Main Feature"/>
+                                                                <input type="text" name="mainfeature2" id="mainfeature2" placeholder="Second Main Feature"/>
+                                                                <p class="notification" id="mainfeature2CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 3 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature3" placeholder="Third Main Feature"/>
+                                                                <input type="text" name="mainfeature3" id="mainfeature3" placeholder="Third Main Feature"/>
+                                                                <p class="notification" id="mainfeature3CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 4 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature4" placeholder="Fourth Main Feature"/>
+                                                                <input type="text" name="mainfeature4" id="mainfeature4" placeholder="Fourth Main Feature"/>
+                                                                <p class="notification" name="mainfeature4" id="mainfeature1CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <P style="margin-bottom: 0px;">Main Feature 5 (50 Charachters Max)</P>
-                                                                <input type="text" name="mainfeature5" placeholder="Fifth Main Feature"/>
+                                                                <input type="text" name="mainfeature5" id="mainfeature5" placeholder="Fifth Main Feature"/>
+                                                                <p class="notification" id="mainfeature5CharLimitNotification"></p>
                                                             </div>
 
                                                             <div class="col-12">
@@ -138,5 +145,134 @@
                                 </div>
                             </div>
                         </section>
+
+
+                        <script>
+                            $(document).ready(function() {
+                          
+                        
+                                // Title
+                                var summaryTextarea = $('#title');
+                                var summaryCharLimitNotification = $('#summaryCharLimitNotification');
+                                var summaryCharLimit = 255;
+                        
+                                summaryTextarea.on('input', function() {
+                                    var currentLength = $(this).val().length;
+                                    if (currentLength > summaryCharLimit) {
+                                        summaryCharLimitNotification.text('Character limit exceeded!').show();
+                                    } else {
+                                        summaryCharLimitNotification.hide();
+                                    }
+                                });
+
+
+                                  // Heading 1
+        var heading1Textarea = $('#heading1');
+        var heading1CharLimitNotification = $('#heading1CharLimitNotification'); // Corrected ID
+        var heading1CharLimit = 255;
+
+        heading1Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > heading1CharLimit) {
+                heading1CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                heading1CharLimitNotification.hide();
+            }
+        });
+
+
+                                      // Heading 2
+                                      var heading2Textarea = $('#heading2');
+        var heading2CharLimitNotification = $('#heading2CharLimitNotification'); // Corrected ID
+        var heading2CharLimit = 255;
+
+        heading2Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > heading2CharLimit) {
+                heading2CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                heading2CharLimitNotification.hide();
+            }
+        });
+
+
+                                           // Main Feature 1
+        var mainFeature1Textarea = $('#mainfeature1');
+        var mainFeature1CharLimitNotification = $('#mainfeature1CharLimitNotification'); // Corrected ID
+        var mainFeature1CharLimit = 50;
+
+        mainFeature1Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature1CharLimit) {
+                mainFeature1CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature1CharLimitNotification.hide();
+            }
+        });
+
+
+        
+                                           // Main Feature 2
+                                           var mainFeature2Textarea = $('#mainfeature2');
+        var mainFeature2CharLimitNotification = $('#mainfeature2CharLimitNotification'); // Corrected ID
+        var mainFeature2CharLimit = 50;
+
+        mainFeature2Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature2CharLimit) {
+                mainFeature2CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature2CharLimitNotification.hide();
+            }
+        });
+
+
+        
+                                           // Main Feature 3
+                                           var mainFeature3Textarea = $('#mainfeature3');
+        var mainFeature3CharLimitNotification = $('#mainfeature3CharLimitNotification'); // Corrected ID
+        var mainFeature3CharLimit = 50;
+
+        mainFeature3Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature3CharLimit) {
+                mainFeature3CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature3CharLimitNotification.hide();
+            }
+        });
+
+
+                 // Main Feature 4
+                 var mainFeature4Textarea = $('#mainfeature4');
+        var mainFeature4CharLimitNotification = $('#mainfeature4CharLimitNotification'); // Corrected ID
+        var mainFeature4CharLimit = 50;
+
+        mainFeature4Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature4CharLimit) {
+                mainFeature4CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature4CharLimitNotification.hide();
+            }
+        });
+
+
+                 // Main Feature 3
+                 var mainFeature5Textarea = $('#mainfeature5');
+        var mainFeature5CharLimitNotification = $('#mainfeature5CharLimitNotification'); // Corrected ID
+        var mainFeature5CharLimit = 50;
+
+        mainFeature5Textarea.on('input', function() {
+            var currentLength = $(this).val().length;
+            if (currentLength > mainFeature5CharLimit) {
+                mainFeature5CharLimitNotification.text('Character limit exceeded!').show();
+            } else {
+                mainFeature5CharLimitNotification.hide();
+            }
+        });
+
+    });
+                        </script>
 
                 <%- include('../partials/footer') -%>

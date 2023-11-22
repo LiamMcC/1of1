@@ -43,7 +43,10 @@ const saltRounds = 10;
 
 router.use(cookieParser('qwerty')); // read cookies (needed for auth) change the secret 
 
-
+router.use((req, res, next) => {
+  res.locals.cookies = req.cookies;
+  next();
+});
 
 // required for passport
 router.use(session({
@@ -83,16 +86,15 @@ function checkMembershipStatus(req, res, next) {
     }
   }
 
-function isAdmin(req, res, next) {
 
-	// if user is authenticated in the session, carry on
-	if (req.user.adminRights)
-		return next();
-
-	// if they aren't redirect them to the home page
-	res.redirect('/about');
-}
-
+function acceptCookie(req, res, next) {
+  // && new Date() <= req.user.membership_expiry_date
+   if (req.user.cookie_status === 'Accepted' ) {
+     next(); // User has an active membership.
+   } else {
+     res.redirect('/1of1info/cookiesneeded');
+   }
+ }
 
 // Deny Permission for actions that are not allowed
 
@@ -288,7 +290,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 
 
-    router.get('/inbox', isLoggedIn, checkMembershipStatus, function(req, res) {
+    router.get('/inbox', isLoggedIn, checkMembershipStatus,  function(req, res) {
       const successMessage = req.flash('wrongcombo');
       const currentRoute = req.url;
       // SELECT * FROM Messages WHERE (receiver_id = ?) OR (sender_id = ? AND replied_to = ?)
